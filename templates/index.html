@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+  <link rel="shortcut icon" href="#" />
   <title>Poker Hand Odds</title>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -8,7 +9,53 @@
 </head>
 <body>
   <script src="{{ url_for('static', filename='deck-of-cards/deck.js') }}"></script>
-  <h1>Poker Hand Odds Learning Tool</h1>
-  <div id="deck"></div>
+  <header>
+    <h1>Poker Hand Odds Learning Tool</h1>
+  </header>
+  
+  
+  <div class="row">
+    <div class="col-3">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    </div>
+    <div class="col-9">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <h3>Your Hand</h3>  
+    </div>
+    <div class="col-9">
+      <h3>Board</h3>  
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12" id="suite1">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12" id="suite2">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12" id="suite3">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12" id="suite4">
+      
+    </div>
+  </div>
 </body>
 </html>

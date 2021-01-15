@@ -26,21 +26,40 @@ function printCard(event){
 
 window.addEventListener('load', function () {
 
-  var $container = document.getElementById('deck');
+  var $suit1 = document.getElementById('suite1');
+  var $suit2 = document.getElementById('suite2');
+  var $suit3 = document.getElementById('suite3');
+  var $suit4 = document.getElementById('suite4');
 
   // Create Deck.
   deck = Deck();
-  deck.intro();
-  deck.bysuit();
   deck.flip();
-
-  // Add deck to DOM.
-  deck.mount($container);
-
+  
   // Add onclick listener to each card.
   const cards = deck.cards;
   for (var i = 0; i < cards.length; i++){
     cards[i].$el.addEventListener('click', function(e){ printCard(e) }, false);
+  }
+
+  // Add cards by suit to their own rows.
+  for (var rank = 0; rank < 13; rank++){
+    for (var suit = 0; suit < 4; suit++){
+      var index = (suit * 13) + rank;
+      switch(suit){
+        case 0:
+          $suit1.appendChild(deck.cards[index].$el);
+          break;
+        case 1:
+          $suit2.appendChild(deck.cards[index].$el);
+          break;
+        case 2:
+          $suit3.appendChild(deck.cards[index].$el);
+          break;
+        case 3:
+          $suit4.appendChild(deck.cards[index].$el);
+          break;
+      }
+    }
   }
 
 });
