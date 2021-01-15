@@ -14,13 +14,42 @@
 
 import datetime
 
-from flask import Flask, render_template
+from poker.hand import Combo
+
+import holdem_calc
+import holdem_functions
+
+from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
 @app.route('/')
 def root():
     return render_template('index.html')
+
+@app.route('/cards',methods = ['POST', 'GET'])
+def getCard():
+   if request.method == 'POST':
+      user = request.form['nm']
+      return redirect(url_for('success',name = user))
+   else:
+        #user = request.args.get('nm')
+        board = ["Qc", "Th", "9s"]
+        villan_hand = None
+        exact_calculation = True
+        verbose = True
+        num_sims = 1
+        read_from_file = None
+
+        hero_hand = Combo('KsJc')
+
+        odds = holdem_calc.calculate_odds_villan(board, exact_calculation, 
+                            num_sims, read_from_file , 
+                            hero_hand, villan_hand, 
+                            verbose, print_elapsed_time = True)
+        print("Another test")
+        print(odds[0].get("win"))
+        return (str(odds[0].get("win")))
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
