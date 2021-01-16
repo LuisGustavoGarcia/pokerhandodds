@@ -18,19 +18,15 @@ from poker.hand import Combo,Hand,Range
 from calculation import holdem_calc
 
 from flask import Flask, render_template, redirect, url_for, request
-from functools import wraps
 import asyncio
-def async_action(f):
-    @wraps(f)
-    def wrapped(*args, **kwargs):
-        return asyncio.run(f(*args, **kwargs))
-    return wrapped
+
 app = Flask(__name__)
 #Narrows villians range by taking the preflop action as input
 #Hero will be RFI / vs. Raise / vs. 3-bet / 4-bet / etc. against x position to narrow ranges
 #Assumes GTO preflop 100BB deep and hero follows charts
-@async_action
 async def narrowRange(action, villian_position):
+    await asyncio.sleep(1)
+
     #Button RFI range -> Villian is on the button and raises first
     if action == "RFI" and villian_position == "BU":
         return Range('22+,A2s+,K2s+,Q2s+,J2s+,T2s+,95s+,85s+,74s+,63s+,53s+,43s,A2o+,K8o+,Q8o+,J8o+,T8o+,97o+,87o,76o,65o,54o')
@@ -49,13 +45,20 @@ async def narrowRange(action, villian_position):
 def root():
     return render_template('index.html')
 @app.route('/cards',methods = ['POST', 'GET'])
-@async_action
-async def getOdds():
-     await asyncio.sleep(2)
+def promiseTest():
+    loop = asyncio.get_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(narrowRange("RFI","BU"))
+    #task = loop.create_task(narrowRange("RFI","BU"))
+    #task.add_done_callback(getOdds())
+    loop.run_until_complete()
+
+def getOdds():
+
+     print("tesssst")
 
      villian_hand = narrowRange("RFI","BU")
-     await asyncio.sleep(2)
-
+     
      board = ["Qc", "Th", "9s"]
      hero_hand = Combo('KsJc')
 
@@ -69,13 +72,13 @@ async def getOdds():
      verbose = True
      run_one_simulation = 1
      do_not_read_from_file = None
-
+     print("Entering")
      odds = holdem_calc.calculate_odds_villan(board, do_exact_calculation, 
                         run_one_simulation, do_not_read_from_file , 
                         hero_hand, villan_hand, 
                         verbose, print_elapsed_time = True)
-     await asyncio.sleep(2)
-
+     print("test",odds)
+     return "Okay"
      return str(odds[0].get("win"))
 """
     if request.method == 'POST':
