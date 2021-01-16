@@ -15,9 +15,7 @@
 import datetime
 
 from poker.hand import Combo
-
-import holdem_calc
-import holdem_functions
+from calculation import holdem_calc
 
 from flask import Flask, render_template, redirect, url_for, request
 

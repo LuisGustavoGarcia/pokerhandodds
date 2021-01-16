@@ -1,6 +1,6 @@
 import time
-import holdem_functions
-import holdem_argparser
+from calculation import holdem_functions
+from calculation import holdem_argparser
 from poker.hand import Combo
 
 suit_dict = {'♠': 's', '♣': 'c', '♥': 'h', '♦': 'd'}
