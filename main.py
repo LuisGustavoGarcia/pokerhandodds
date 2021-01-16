@@ -47,6 +47,11 @@ def getOdds():
      board = ["Qc", "Th", "9s"]
      hero_hand = Combo('KsJc')
 
+     #Function works when Below uncommented, but calculate odds because null 
+     #likely due to asynch
+
+     #return villian_hand.to_html()
+
      #Constant Variables
      do_exact_calculation = True
      verbose = True
