@@ -12,18 +12,23 @@ body {
   text-size-adjust: 100%;
 }
 
-#deck {
-  position: relative;
-}
+
+/* CARDS */
 
 .hand-card {
   width: auto;
-  height: 8rem;
+  height: 10rem;
+}
+
+.card-input {
+  width: 8em;
 }
 
 * {
   box-sizing: border-box;
 }
+
+/* GRID */
 
 .col-1 {width: 8.33%;}
 .col-2 {width: 16.66%;}
@@ -40,12 +45,159 @@ body {
 
 [class*="col-"] {
   float: left;
-  padding: 5px;
+  /* padding: 5px; */
   /* border: 1px solid red; */
 }
 
-/* .row::after {
+.row::after {
   content: "";
   clear: both;
   display: table;
-} */
+}
+
+/* PROGRESS BAR */
+.container {
+  width: auto;
+  margin: 50px auto;
+  font-family: Arial, sans-serif;
+}
+
+.progress-wrap {
+  height: 16px;
+  background: #e4e4e4;
+  border-radius: 3px;
+  border-top: 1px solid #ccc;
+}
+
+.progress-wizard {
+  padding: 0 0 10px 0;
+  position: relative;
+  bottom: 10px;
+  list-style-type: none;
+}
+
+.progress-wizard li {
+  display: inline-block;
+  width: 16%;
+  height: 36px;
+  font-size: 12px;
+  text-align: center;
+  text-indent: -19px;
+  line-height: 75px;
+  border-top: 4px solid #ccc;
+  box-shadow: inset 0 1px 0 #fff;
+  position: relative; 
+  z-index: 1 !important;
+}
+
+.progress-wizard li:before {
+  position: relative;
+  float: left;
+  text-indent: 0;
+  left: -webkit-calc(50% - 9.5px);
+  left: -moz-calc(50% - 9.5px);
+  left: -ms-calc(50% - 9.5px);
+  left: -o-calc(50% - 9.5px);
+  left: calc(50% - 9.5px);
+}
+
+.progress-wizard li.done {
+  font-size: 12px;
+}
+
+.progress-wizard li.done:before {
+  content: "✔" !important;
+  color: white !important;
+  text-shadow: none !important;
+  font-size: 14px;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  top: -19px;
+  border: none;
+  border-radius: 19px;
+  box-shadow: 0 -1px 0 0 #ccc;
+}
+
+.progress-wizard li.todo {
+  font-size: 12px;
+  border-top-color: #ccc;
+  position: relative;
+  color: #999;
+}
+
+.progress-wizard li.todo:before {
+  content: "\2B24";
+  font-size: 17.1px;
+  top: -22px;
+  line-height: 18.05px;
+}
+
+.progress-wizard li.done {
+  color: #f43d4d;
+  border-top-color: #f43d4d;
+}
+
+.progress-wizard li.done:before {
+  color: white;
+  background-color: #f43d4d;
+  border: 5px solid #e4e4e4;
+  position: relative;
+  top: -22px;
+}
+
+.progress-wizard li.todo:before {
+  background: #ccc;
+  width: 30px;
+  height: 30px;
+  border: 5px solid #e4e4e4;
+  box-shadow: 0 -1px 0 0 #ccc;
+  border-radius: 60px;
+  line-height: 30px;
+}
+
+.progress-wizard li.stepone:before {
+  color: #999;
+  text-shadow: 1px 1px 0 white;
+  content: "1";
+}
+
+.progress-wizard li.steptwo:before {
+  color: #999;
+  text-shadow: 1px 1px 0 white;
+  content: "2";
+}
+
+.progress-wizard li.stepthree:before {
+  color: #999;
+  text-shadow: 1px 1px 0 white;
+  content: "3";
+}
+
+.progress-wizard li.stepfour:before {
+  color: #999;
+  text-shadow: 1px 1px 0 white;
+  content: "4";
+}
+
+.progress-wizard li.stepfive:before {
+  color: #999;
+  text-shadow: 1px 1px 0 white;
+  content: "5";
+}
+
+.progress-wizard li.stepsix:before {
+  color: #999;
+  text-shadow: 1px 1px 0 white;
+  content: "6";
+}
+
+.progress-wizard li.current {
+  color: #f4828c;
+}
+
+.progress-wizard li.current:before {
+  background: #f4828c;
+  color: #fff;
+  text-shadow: none;
+}

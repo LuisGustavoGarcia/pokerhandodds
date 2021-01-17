@@ -10,22 +10,24 @@
 <body>
   <script src="{{ url_for('static', filename='deck-of-cards/deck.js') }}"></script>
   <header>
-    <h1>Poker Hand Odds Learning Tool</h1>
+    <h1>Poker Hand Odds</h1>
   </header>
   
-  
   <div class="row">
-    <div class="col-3">
-      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    <div class="col-1"></div>
+    <div class="col-10">
+      <div class="container">
+        <div class="progress-wrap">
+         <ol class="progress-wizard">
+           <li class="progress-point done stepone">Pre Flop</li>
+           <li class="progress-point current todo steptwo">Flop</li>
+           <li class="progress-point todo stepthree">Turn</li>
+           <li class="progress-point todo stepfour">River</li>
+         </ol>
+         </div>
+       </div>
     </div>
-    <div class="col-9">
-      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-    </div>
+    <div class="col-1"></div>
   </div>
 
   <div class="row">
@@ -36,26 +38,34 @@
       <h3>Board</h3>  
     </div>
   </div>
+  
+  <div class="row">
+    <div class="col-3">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    </div>
+    <div class="col-9">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    </div>
+  </div>
 
   <div class="row">
-    <div class="col-12" id="suite1">
-      
+    <div class="col-3">
+      <input type="text" maxlength="2" class="card-input" name="hand1">
+      <input type="text" maxlength="2" class="card-input" name="hand2">
+    </div>
+    <div class="col-9">
+      <input type="text" maxlength="2" class="card-input" name="board1">
+      <input type="text" maxlength="2" class="card-input" name="board2">
+      <input type="text" maxlength="2" class="card-input" name="board3">
+      <input type="text" maxlength="2" class="card-input" name="board4">
+      <input type="text" maxlength="2" class="card-input" name="board5">
     </div>
   </div>
-  <div class="row">
-    <div class="col-12" id="suite2">
-      
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12" id="suite3">
-      
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12" id="suite4">
-      
-    </div>
-  </div>
+
 </body>
 </html>

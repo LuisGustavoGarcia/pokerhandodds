@@ -1,65 +1,54 @@
-/**
- * Copyright 2018, Google LLC
- * Licensed under the Apache License, Version 2.0 (the `License`);
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an `AS IS` BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 'use strict';
-
-var deck;
-
-function printCard(event){
-  var card = event.currentTarget;
-  var suit = card.classList[1];
-  var rank = card.classList[2];
-  console.log(suit, rank);
-}
-
-window.addEventListener('load', function () {
-
-  var $suit1 = document.getElementById('suite1');
-  var $suit2 = document.getElementById('suite2');
-  var $suit3 = document.getElementById('suite3');
-  var $suit4 = document.getElementById('suite4');
-
-  // Create Deck.
-  deck = Deck();
-  deck.flip();
-  
-  // Add onclick listener to each card.
-  const cards = deck.cards;
-  for (var i = 0; i < cards.length; i++){
-    cards[i].$el.addEventListener('click', function(e){ printCard(e) }, false);
-  }
-
-  // Add cards by suit to their own rows.
-  for (var rank = 0; rank < 13; rank++){
-    for (var suit = 0; suit < 4; suit++){
-      var index = (suit * 13) + rank;
-      switch(suit){
-        case 0:
-          $suit1.appendChild(deck.cards[index].$el);
-          break;
-        case 1:
-          $suit2.appendChild(deck.cards[index].$el);
-          break;
-        case 2:
-          $suit3.appendChild(deck.cards[index].$el);
-          break;
-        case 3:
-          $suit4.appendChild(deck.cards[index].$el);
-          break;
-      }
+var turn;
+(function (turn) {
+    turn[turn["Preflop"] = 0] = "Preflop";
+    turn[turn["Flop"] = 1] = "Flop";
+    turn[turn["Turn"] = 2] = "Turn";
+    turn[turn["River"] = 3] = "River";
+})(turn || (turn = {}));
+var currentTurn;
+var playerHand = [];
+var board = [];
+function handUpdated(value, index) {
+    if (value.length == 2) {
+        playerHand[index] = value;
     }
-  }
-
+    console.log(playerHand);
+}
+function boardUpdated(value, index) {
+    if (value.length == 2) {
+        board[index] = value;
+    }
+    console.log(board);
+}
+window.addEventListener('load', function () {
+    currentTurn = turn.Preflop;
+    var handInput1 = document.getElementsByName("hand1")[0];
+    handInput1.addEventListener('input', function (evt) {
+        handUpdated(handInput1.value, 0);
+    });
+    var handInput2 = document.getElementsByName("hand2")[0];
+    handInput2.addEventListener('input', function (evt) {
+        handUpdated(handInput2.value, 1);
+    });
+    var boardInput1 = document.getElementsByName("board1")[0];
+    boardInput1.addEventListener('input', function (evt) {
+        boardUpdated(boardInput1.value, 0);
+    });
+    var boardInput2 = document.getElementsByName("board2")[0];
+    boardInput2.addEventListener('input', function (evt) {
+        boardUpdated(boardInput2.value, 1);
+    });
+    var boardInput3 = document.getElementsByName("board3")[0];
+    boardInput3.addEventListener('input', function (evt) {
+        boardUpdated(boardInput3.value, 2);
+    });
+    var boardInput4 = document.getElementsByName("board4")[0];
+    boardInput4.addEventListener('input', function (evt) {
+        boardUpdated(boardInput4.value, 3);
+    });
+    var boardInput5 = document.getElementsByName("board5")[0];
+    boardInput5.addEventListener('input', function (evt) {
+        boardUpdated(boardInput5.value, 4);
+    });
 });
