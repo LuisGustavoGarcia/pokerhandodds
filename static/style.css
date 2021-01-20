@@ -15,9 +15,9 @@ body {
 
 /* CARDS */
 
-.hand-card {
-  width: auto;
-  height: 10rem;
+.card {
+  width: 12em;
+  height: auto;
 }
 
 .card-input {

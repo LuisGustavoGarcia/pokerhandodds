@@ -8,42 +8,142 @@ enum turn {
 }
 
 let currentTurn : turn;
-let playerHand : string[] = [];
-let board: string[] = [];
+let playerHand : string[] = [null, null];
+let board: string[] = [null, null, null, null, null];
+let playerHandCardImages : Element[] = [];
+let boardCardImages : Element[] = [];
 
-function isValidCard(value: string): boolean {
-  if (value.length != 2)
-    return false;
-  let suit : string = value[0];
-  let rank : string = value[1];
+function isValidCard(card: string): boolean {
+  let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaJjQqKk]{1}))[SsHhCcDd]{1}');
+  console.log(regex.test(card));
+  return regex.test(card);
+}
+
+function cardNotAlreadyUsed(card: string): boolean{
+  for(let i = 0; i < playerHand.length; i++){
+    let element = playerHand[i];
+    if (element === card){
+      return false;
+    }
+  }
+
+  for(let i = 0; i < board.length; i++){
+    let element = board[i];
+    if (element === card){
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function getCardUrl(card: string): string {
+  let url = "";
+  let rank;
+  let suit;
+
+  if (card.length == 2){
+    rank = card[0].toLowerCase();
+    suit = card[1].toLowerCase();
+  } else if (card.length == 3) {
+    rank = card[0] + card[1];
+    console.log(rank);
+    suit = card[2].toLowerCase();
+  }else{
+    return "error";
+  }
+  
+
   switch(suit){
     case 's':
-      break;
-    case 'c':
-      break;
-    case 'd':
+      url += "0";
       break;
     case 'h':
+      url += "1";
+      break;
+    case 'c':
+      url += "2";
+      break;
+    case 'd':
+      url += "3";
       break;
   }
 
-  return false;
-}
-
-function handUpdated(value: string, index: number): void {
-  if (value.length == 2){
-    playerHand[index] = value;
+  switch(rank){
+    case 'a':
+      url += "_1";
+      break;
+    case '2':
+      url += "_2";
+      break;
+    case '3':
+      url += "_3";
+      break;
+    case '4':
+      url += "_4";
+      break;
+    case '5':
+      url += "_5";
+      break;
+    case '6':
+      url += "_6";
+      break;
+    case '7':
+      url += "_7";
+      break;
+    case '8':
+      url += "_8";
+      break;
+    case '9':
+      url += "_9";
+      break;
+    case '10':
+      url += "_10";
+      break;
+    case 'j':
+      url += "_11";
+      break;
+    case 'q':
+      url += "_12";
+      break;
+    case 'k':
+      url += "_13";
+      break;
   }
 
-  console.log(playerHand);
+  url += ".svg";
+  
+  return url;
 }
 
-function boardUpdated(value: string, index: number): void {
-  if (value.length == 2){
-    board[index] = value;
+function updateCardImage(index: number, isInHand: boolean): void {
+  if (isInHand){
+    let cardUrl = getCardUrl(playerHand[index]);
+    (<HTMLImageElement>playerHandCardImages[index]).src = "/static/deck-of-cards/faces/" + cardUrl;
+  } else {
+    let cardUrl = getCardUrl(board[index]);
+    (<HTMLImageElement>boardCardImages[index]).src = "/static/deck-of-cards/faces/" + cardUrl;
   }
+}
 
-  console.log(board);
+function handUpdated(card: string, index: number): void {
+  if (card.length < 2){
+    playerHand[index] = null;
+  }
+  else if (isValidCard(card) && cardNotAlreadyUsed(card)){
+    playerHand[index] = card;
+    updateCardImage(index, true);
+  }
+}
+
+function boardUpdated(card: string, index: number): void {
+  if (card.length < 2){
+    board[index] = null;
+  }
+  else if (isValidCard(card) && cardNotAlreadyUsed(card)){
+    board[index] = card;
+    updateCardImage(index, false);
+  }
 }
 
 window.addEventListener('load', function () {
@@ -84,4 +184,6 @@ window.addEventListener('load', function () {
     boardUpdated((<HTMLInputElement>boardInput5).value, 4);
   });
 
+  playerHandCardImages = Array.prototype.slice.call(document.getElementsByClassName("hand-card"));
+  boardCardImages = Array.prototype.slice.call(document.getElementsByClassName("board-card"));
 });
