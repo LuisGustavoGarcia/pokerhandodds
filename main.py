@@ -41,7 +41,7 @@ def narrowRange(action, villian_position):
     #CO 4-bet
     #Button 5-bet
     return None
-    
+
 @app.route('/')
 def root():
     return render_template('index.html')
@@ -55,6 +55,14 @@ def getOdds():
     #Button RFI range -> Villian is on the button and raises first
     if action == "RFI" and villan_position == "BU":
         villan_range = Range('22+,A2s+,K2s+,Q2s+,J2s+,T2s+,95s+,85s+,74s+,63s+,53s+,43s,A2o+,K8o+,Q8o+,J8o+,T8o+,97o+,87o,76o,65o,54o')
+    elif action == "RFI" and villan_position == "CO":
+        villan_range = Range('22+,A2s+,K2s+,Q5s+,J6s+,T6s+,96s+,85s+,75s+,65s,54s,A5o+,K9o+,QTo+')
+    elif action == "RFI" and villan_position == "HJ":
+        villan_range = Range('22+,A2s+,K2s+,Q5s+,J6s+,T6s+,96s+,85s+,75s+,65s,54s,A5o+,K9o+,QTo+')
+    elif action == "RFI" and villan_position == "HJ":
+        villan_range = Range('22+,A2s+,K3s+,Q6s+,J7s+,T7s+,98s,86s+,76s,65s,A8o+,KJo+,QJo')
+    elif action == "RFI" and villan_position == "LJ":
+        villan_range = Range('33+,A2s+,K7s+,Q9s+,J9s+,T9s,98s,87s,76s,65s,A9o+,KTo+,QTo+,JTo')
     #Constant Variables
     do_exact_calculation = True
     verbose = True
