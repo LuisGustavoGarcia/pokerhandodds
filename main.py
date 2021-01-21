@@ -18,6 +18,9 @@ from poker.hand import Combo,Hand,Range
 from calculation import holdem_calc
 
 from flask import Flask, render_template, redirect, url_for, request
+import asyncio
+import numpy as np
+#import pandas as pd
 
 app = Flask(__name__)
 #Narrows villians range by taking the preflop action as input
@@ -38,31 +41,43 @@ def narrowRange(action, villian_position):
     #CO 4-bet
     #Button 5-bet
     return None
+
 @app.route('/')
 def root():
     return render_template('index.html')
 @app.route('/cards',methods = ['POST', 'GET'])
 def getOdds():
-     villian_hand = narrowRange("RFI","BU")
-     board = ["Qc", "Th", "9s"]
-     hero_hand = Combo('KsJc')
+    villan_hand = None
+    board = ["Qc", "Th", "9s"]
+    hero_hand = Combo('KsJc')
+    action = "RFI"
+    villan_position = "BU"
+    #Button RFI range -> Villian is on the button and raises first
+    if action == "RFI" and villan_position == "BU":
+        villan_range = Range('22+,A2s+,K2s+,Q2s+,J2s+,T2s+,95s+,85s+,74s+,63s+,53s+,43s,A2o+,K8o+,Q8o+,J8o+,T8o+,97o+,87o,76o,65o,54o')
+    elif action == "RFI" and villan_position == "CO":
+        villan_range = Range('22+,A2s+,K2s+,Q5s+,J6s+,T6s+,96s+,85s+,75s+,65s,54s,A5o+,K9o+,QTo+')
+    elif action == "RFI" and villan_position == "HJ":
+        villan_range = Range('22+,A2s+,K2s+,Q5s+,J6s+,T6s+,96s+,85s+,75s+,65s,54s,A5o+,K9o+,QTo+')
+    elif action == "RFI" and villan_position == "HJ":
+        villan_range = Range('22+,A2s+,K3s+,Q6s+,J7s+,T7s+,98s,86s+,76s,65s,A8o+,KJo+,QJo')
+    elif action == "RFI" and villan_position == "LJ":
+        villan_range = Range('33+,A2s+,K7s+,Q9s+,J9s+,T9s,98s,87s,76s,65s,A9o+,KTo+,QTo+,JTo')
+    #Constant Variables
+    do_exact_calculation = True
+    verbose = True
+    run_one_simulation = 1
+    do_not_read_from_file = None
 
-     #Function works when Below uncommented, but calculate odds because null 
-     #likely due to asynch
 
-     #return villian_hand.to_html()
-
-     #Constant Variables
-     do_exact_calculation = True
-     verbose = True
-     run_one_simulation = 1
-     do_not_read_from_file = None
-
-     odds = holdem_calc.calculate_odds_villan(board, do_exact_calculation, 
-                        run_one_simulation, do_not_read_from_file , 
-                        hero_hand, villan_hand, 
-                        verbose, print_elapsed_time = True)
-     return str(odds[0].get("win"))
+    items = [holdem_calc.calculate_odds_villan(board, do_exact_calculation, 
+                                run_one_simulation, do_not_read_from_file , 
+                                hero_hand, villan_hand, 
+                                verbose, print_elapsed_time = False) for villan_hand in villan_range.combos]
+    odds = {}
+    [odds.update({odd_type: np.mean([res[0][odd_type] for res in items if res])}) for odd_type in ["tie", "win", "lose"]]
+    #Odds as dictionary with tie, win, loss as keys
+    return str(odds.get("win"))
 """
     if request.method == 'POST':
       user = request.form['nm']
@@ -71,26 +86,7 @@ def getOdds():
         villian_hand = request.args.get('villian-hand')
         hero_hand = request.args.get('hero-hand')
         board = request.args.get('board')
-        #Case: User doesn't submit valid data
-        if request.args.get('villian-hand') == None:
-            print("no information submitted...populating with dummy data")
-            board = ["Qc", "Th", "9s"]
-            villan_hand = narrowRange("RFI","BU")
-            hero_hand = Combo('KsJc')
-
-        #Constant Variables
-        do_exact_calculation = True
-        verbose = True
-        run_one_simulation = 1
-        do_not_read_from_file = None
-
-        odds = holdem_calc.calculate_odds_villan(board, do_exact_calculation, 
-                            run_one_simulation, do_not_read_from_file , 
-                            hero_hand, villan_hand, 
-                            verbose, print_elapsed_time = True)
-        #print(odds[0].get("win"))
-        #print(str(odds[0].get("win")))
-        """
+"""
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
