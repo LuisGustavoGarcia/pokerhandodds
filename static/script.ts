@@ -1,17 +1,20 @@
 'use strict';
 
-enum turn {
+enum Turn {
   Preflop,
   Flop,
   Turn,
   River,
 }
 
-let currentTurn : turn;
+let currentTurn : Turn;
 let playerHand : string[] = [null, null];
 let board: string[] = [null, null, null, null, null];
+let handInputs : Element[] = [null, null];
+let boardInputs : Element[] = [null, null, null, null, null];
 let playerHandCardImages : Element[] = [];
 let boardCardImages : Element[] = [];
+let progressbarElems : Element[] = [null, null, null, null];
 
 function isValidCard(card: string): boolean {
   let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaJjQqKk]{1}))[SsHhCcDd]{1}');
@@ -146,43 +149,144 @@ function boardUpdated(card: string, index: number): void {
   }
 }
 
+function addInputFieldEventListeners(): void {
+  handInputs[0] = document.getElementsByName("hand1")[0];
+  handInputs[0].addEventListener('input', function (evt) {
+    handUpdated((<HTMLInputElement>handInputs[0]).value, 0);
+  });
+
+  handInputs[1] = document.getElementsByName("hand2")[0];
+  handInputs[1].addEventListener('input', function (evt) {
+    handUpdated((<HTMLInputElement>handInputs[1]).value, 1);
+  });
+
+  boardInputs[0] = document.getElementsByName("board1")[0];
+  boardInputs[0].addEventListener('input', function (evt) {
+    boardUpdated((<HTMLInputElement>boardInputs[0]).value, 0);
+  });
+
+  boardInputs[1] = document.getElementsByName("board2")[0];
+  boardInputs[1].addEventListener('input', function (evt) {
+    boardUpdated((<HTMLInputElement>boardInputs[1]).value, 1);
+  });
+
+  boardInputs[2] = document.getElementsByName("board3")[0];
+  boardInputs[2].addEventListener('input', function (evt) {
+    boardUpdated((<HTMLInputElement>boardInputs[2]).value, 2);
+  });
+
+  boardInputs[3] = document.getElementsByName("board4")[0];
+  boardInputs[3].addEventListener('input', function (evt) {
+    boardUpdated((<HTMLInputElement>boardInputs[3]).value, 3);
+  });
+
+  boardInputs[4] = document.getElementsByName("board5")[0];
+  boardInputs[4].addEventListener('input', function (evt) {
+    boardUpdated((<HTMLInputElement>boardInputs[4]).value, 4);
+  });
+}
+
+function turnCompleted(current: number): void {
+  switch(current){
+    case Turn.Preflop:
+      currentTurn = Turn.Preflop;
+      break;
+    case Turn.Flop:
+      currentTurn = Turn.Flop;
+      break;
+    case Turn.Turn:
+      currentTurn = Turn.Turn;
+      break;
+    case Turn.River:
+      currentTurn = Turn.River;
+      break;
+  }
+  updateProgressBar();
+  showTurnInputs();
+}
+
+function addProgressBarEventListeners(): void {
+  progressbarElems[0] = document.getElementsByClassName("stepone")[0];
+  progressbarElems[1] = document.getElementsByClassName("steptwo")[0];
+  progressbarElems[2] = document.getElementsByClassName("stepthree")[0];
+  progressbarElems[3] = document.getElementsByClassName("stepfour")[0];
+
+  for (let i = 0; i < progressbarElems.length; i++) {
+    progressbarElems[i].addEventListener('click', function(evt) {
+      turnCompleted(i);
+    });
+  }
+}
+
+function updateProgressBar(): void {
+  progressbarElems[currentTurn].classList.remove("done");
+  progressbarElems[currentTurn].classList.add("current");
+  progressbarElems[currentTurn].classList.add("todo");
+
+  for (let i = 0; i < currentTurn; i++){
+    progressbarElems[i].classList.remove("todo");
+    progressbarElems[i].classList.remove("current");
+    progressbarElems[i].classList.add("done");
+  }
+
+  for (let i = currentTurn + 1; i < 4; i++){
+    progressbarElems[i].classList.remove("current");
+    progressbarElems[i].classList.remove("done");
+    progressbarElems[i].classList.add("todo");
+  }
+}
+
+function showTurnInputs(): void {
+  switch(currentTurn){
+    case Turn.Preflop:
+      handInputs[0].classList.replace("hidden", "visible");
+      handInputs[1].classList.replace("hidden", "visible");
+
+      boardInputs[0].classList.replace("visible", "hidden");
+      boardInputs[1].classList.replace("visible", "hidden");
+      boardInputs[2].classList.replace("visible", "hidden");
+      boardInputs[3].classList.replace("visible", "hidden");
+      boardInputs[4].classList.replace("visible", "hidden");
+      break;
+    case Turn.Flop:
+      handInputs[0].classList.replace("visible", "hidden");
+      handInputs[1].classList.replace("visible", "hidden");
+
+      boardInputs[0].classList.replace("hidden", "visible");
+      boardInputs[1].classList.replace("hidden", "visible");
+      boardInputs[2].classList.replace("hidden", "visible");
+      boardInputs[3].classList.replace("visible", "hidden");
+      boardInputs[4].classList.replace("visible", "hidden");
+      break;
+    case Turn.Turn:
+      handInputs[0].classList.replace("visible", "hidden");
+      handInputs[1].classList.replace("visible", "hidden");
+
+      boardInputs[0].classList.replace("visible", "hidden");
+      boardInputs[1].classList.replace("visible", "hidden");
+      boardInputs[2].classList.replace("visible", "hidden");
+      boardInputs[3].classList.replace("hidden", "visible");
+      boardInputs[4].classList.replace("visible", "hidden");
+      break;
+    case Turn.River:
+      handInputs[0].classList.replace("visible", "hidden");
+      handInputs[1].classList.replace("visible", "hidden");
+
+      boardInputs[0].classList.replace("visible", "hidden");
+      boardInputs[1].classList.replace("visible", "hidden");
+      boardInputs[2].classList.replace("visible", "hidden");
+      boardInputs[3].classList.replace("visible", "hidden");
+      boardInputs[4].classList.replace("hidden", "visible");
+      break;
+  }
+}
+
 window.addEventListener('load', function () {
-  currentTurn = turn.Preflop;
-
-  let handInput1 = document.getElementsByName("hand1")[0];
-  handInput1.addEventListener('input', function (evt) {
-    handUpdated((<HTMLInputElement>handInput1).value, 0);
-  });
-
-  let handInput2 = document.getElementsByName("hand2")[0];
-  handInput2.addEventListener('input', function (evt) {
-    handUpdated((<HTMLInputElement>handInput2).value, 1);
-  });
-
-  let boardInput1 = document.getElementsByName("board1")[0];
-  boardInput1.addEventListener('input', function (evt) {
-    boardUpdated((<HTMLInputElement>boardInput1).value, 0);
-  });
-
-  let boardInput2 = document.getElementsByName("board2")[0];
-  boardInput2.addEventListener('input', function (evt) {
-    boardUpdated((<HTMLInputElement>boardInput2).value, 1);
-  });
-
-  let boardInput3 = document.getElementsByName("board3")[0];
-  boardInput3.addEventListener('input', function (evt) {
-    boardUpdated((<HTMLInputElement>boardInput3).value, 2);
-  });
-
-  let boardInput4 = document.getElementsByName("board4")[0];
-  boardInput4.addEventListener('input', function (evt) {
-    boardUpdated((<HTMLInputElement>boardInput4).value, 3);
-  });
-
-  let boardInput5 = document.getElementsByName("board5")[0];
-  boardInput5.addEventListener('input', function (evt) {
-    boardUpdated((<HTMLInputElement>boardInput5).value, 4);
-  });
+  addInputFieldEventListeners();
+  addProgressBarEventListeners();
+  
+  currentTurn = Turn.Preflop;
+  showTurnInputs();
 
   playerHandCardImages = Array.prototype.slice.call(document.getElementsByClassName("hand-card"));
   boardCardImages = Array.prototype.slice.call(document.getElementsByClassName("board-card"));

@@ -124,6 +124,7 @@ body {
   border-top-color: #ccc;
   position: relative;
   color: #999;
+  cursor: pointer;
 }
 
 .progress-wizard li.todo:before {
@@ -136,6 +137,7 @@ body {
 .progress-wizard li.done {
   color: #f43d4d;
   border-top-color: #f43d4d;
+  cursor: pointer;
 }
 
 .progress-wizard li.done:before {
@@ -200,4 +202,12 @@ body {
   background: #f4828c;
   color: #fff;
   text-shadow: none;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
 }
