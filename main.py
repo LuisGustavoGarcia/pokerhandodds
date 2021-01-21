@@ -52,6 +52,7 @@ def getOdds():
     hero_hand = Combo('KsJc')
     action = "RFI"
     villan_position = "BU"
+    hero_position = "CO"
     #Button RFI range -> Villian is on the button and raises first
     if action == "RFI" and villan_position == "BU":
         villan_range = Range('22+,A2s+,K2s+,Q2s+,J2s+,T2s+,95s+,85s+,74s+,63s+,53s+,43s,A2o+,K8o+,Q8o+,J8o+,T8o+,97o+,87o,76o,65o,54o')
@@ -63,6 +64,30 @@ def getOdds():
         villan_range = Range('22+,A2s+,K3s+,Q6s+,J7s+,T7s+,98s,86s+,76s,65s,A8o+,KJo+,QJo')
     elif action == "RFI" and villan_position == "LJ":
         villan_range = Range('33+,A2s+,K7s+,Q9s+,J9s+,T9s,98s,87s,76s,65s,A9o+,KTo+,QTo+,JTo')
+    #Button 3bet Range
+    if action == "3bet" and villan_position == "BU":
+        if hero_position == "CO":
+            villan_range = Range('TT+,55,AQs+,A9s-A6s,A4s-A3s,K9s,K7s,QJs,Q9s,J9s,AKo,AJo-ATo,KJo+,QJo')
+        elif hero_position == "HJ":
+            villan_range = Range('JJ+,66,AQs+,A9s-A6s,A4s-A3s,KTs-K8s,QTs-Q9s,T9s,AKo,AJo,KQo')
+        elif hero_position == "LJ":
+            villan_range = Range('JJ+,AQs+,A9s-A8s,A4s-A3s,K9s,QJs,T9s,AKo,AJo,KQo')
+    elif action == "3bet" and villan_position == "CO":
+        if hero_position == "HJ":
+            villan_range = Range('88+,A9s+,A5s-A4s,KTs+,QJs,AJo+,KQo')
+        elif hero_position == "LJ":
+            villan_range = Range('88+,ATs+,A5s,KTs+,QJs,AQo+,KQo')
+    elif action == "3bet" and villan_position == "HJ":
+        if hero_position == "LJ":
+            villan_range = Range('99+,ATs+,A5s,KTs+,QJs,AQo+,KQo')
+    #3-bet call
+    elif action == "3-bet call" and villan_position == "CO":
+        if hero_position == "BU":
+            villan_range = Range('99-22,AJs-A8s,A6s-A3s,KTs+,Q9s+,J9s+,T8s+,97s+,86s+,76s,65s,54s,AQo-ATo')
+    #4-bet range
+    elif action == "4-bet" and villan_position == "CO":
+        if hero_position == "BU":
+            villan_range = Range('TT+,AQs+,A2s,K5s,AKo,ATo-A9o')
     #Constant Variables
     do_exact_calculation = True
     verbose = True
