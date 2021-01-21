@@ -45,7 +45,7 @@ def narrowRange(action, villian_position):
 @app.route('/')
 def root():
     return render_template('index.html')
-@app.route('/cards',methods = ['POST', 'GET'])
+@app.route('/calculate',methods = ['POST', 'GET'])
 def getOdds():
     villan_hand = None
     board = ["Qc", "Th", "9s"]
