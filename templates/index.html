@@ -9,6 +9,62 @@
 <body>
   <script src="{{ url_for('static', filename='deck-of-cards/deck.js') }}"></script>
   <h1>Poker Hand Odds Learning Tool</h1>
-  <div id="deck"></div>
+  <header>
+    <h1>Poker Hand Odds</h1>
+  </header>
+  
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+      <div class="container">
+        <div class="progress-wrap">
+         <ol class="progress-wizard">
+           <li class="progress-point current todo stepone">Pre Flop</li>
+           <li class="progress-point todo steptwo">Flop</li>
+           <li class="progress-point todo stepthree">Turn</li>
+           <li class="progress-point todo stepfour">River</li>
+         </ol>
+         </div>
+       </div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <h3>Your Hand</h3>  
+    </div>
+    <div class="col-9">
+      <h3>Board</h3>  
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-3">
+      <img class="card hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="card hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    </div>
+    <div class="col-9">
+      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <input type="text" maxlength="3" class="card-input hidden" name="hand1">
+      <input type="text" maxlength="3" class="card-input hidden" name="hand2">
+    </div>
+    <div class="col-9">
+      <input type="text" maxlength="3" class="card-input hidden" name="board1">
+      <input type="text" maxlength="3" class="card-input hidden" name="board2">
+      <input type="text" maxlength="3" class="card-input hidden" name="board3">
+      <input type="text" maxlength="3" class="card-input hidden" name="board4">
+      <input type="text" maxlength="3" class="card-input hidden" name="board5">
+    </div>
+  </div>
 </body>
 </html>
