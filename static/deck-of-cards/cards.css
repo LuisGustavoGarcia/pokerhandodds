@@ -1,8 +1,6 @@
 .card {
-  position: absolute;
+  position: relative;
   display: inline-block;
-  left: -1.9375rem;
-  top: -2.75rem;
   width: 3.875rem;
   height: 5.5rem;
   background-color: #fff;

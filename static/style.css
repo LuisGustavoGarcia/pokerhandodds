@@ -1,7 +1,7 @@
 body {
   font-family: "helvetica", sans-serif;
   text-align: center;
-  background-color: gray;
+  background-color: white;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -11,18 +11,6 @@ body {
   -ms-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
-
-#deck {
-  position: fixed;
-  top: calc(50% + 1.5rem);
-  left: 50%;
-  -webkit-transform: translate3d(-50%, -50%, 0);
-  -moz-transform: translate3d(-50%, -50%, 0);
-  -o-transform: translate3d(-50%, -50%, 0);
-  -ms-transform: translate3d(-50%, -50%, 0);
-  transform: translate3d(-50%, -50%, 0);
-}
-
 
 /* CARDS */
 
