@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+                     
+      "target": "es6",                       /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
+      "module": "commonjs",                  /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */
+      "lib": ["dom","es6",],                 /* Specify library files to be included in the compilation:  */
+  
+      /* Additional Checks */                   
+      "noUnusedLocals": true,                /* Report errors on unused locals. */
+      "noUnusedParameters": true,            /* Report errors on unused parameters. */
+      "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
+      "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+    }
+  }
