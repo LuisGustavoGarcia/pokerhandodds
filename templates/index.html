@@ -71,48 +71,7 @@
     </div>
   </div>
 
-
-
   <div id="app"></div>
-  <script>
-      const form = document.getElementById("calculate_form");
-      form.addEventListener("submit", handleFormSubmit);
-
-      async function postFormDataAsJson({ url, formData }) {
-        const fetchOptions = {
-          method: "POST",
-          body: formData
-        };
-        const response = await fetch(url, fetchOptions);
-        if (!response.ok) {
-          const errorMessage = await response.text();
-          throw new Error(errorMessage);
-        }
-        return response.json();
-      }
-
-      async function handleFormSubmit(event) {
-        event.preventDefault();
-        const form = event.currentTarget;
-        const url = form.action;
-
-        try {
-          const formData = new FormData(form);
-          var hero_hand = formData.get('hand1') + formData.get('hand2')
-          formData.append('action', 'RFI');
-          formData.append('villan_position', 'BU');
-          formData.append('hero_position', 'CO');
-          formData.append('hero_hand', hero_hand);
-
-
-          const responseData = await postFormDataAsJson({ url, formData });
-          var contentDiv = document.getElementById("app");
-          contentDiv.innerHTML = responseData.win;
-        } catch (error) {
-          console.error(error);
-        }
-      }
-  </script>
 
 </body>
 </html>
