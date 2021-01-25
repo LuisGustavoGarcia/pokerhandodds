@@ -55,10 +55,11 @@
 
   <div class="row">
     <div class="col-3">
-      <input type="text" maxlength="3" class="card-input hidden" name="hand1">
-      <input type="text" maxlength="3" class="card-input hidden" name="hand2">
-      <form action="/calculate" method="post">
-        <input type="submit" value="Submit">
+      <form action="/calculate" method="post" id="calculate_form">
+        <input type="text" maxlength="3" class="card-input hidden" name="hand1">
+        <input type="text" maxlength="3" class="card-input hidden" name="hand2">
+        
+        <input type="submit" value="Calculate">
       </form> 
     </div>
     <div class="col-9">
@@ -74,7 +75,81 @@
 
   <div id="app"></div>
   <script>
+      const form = document.getElementById("calculate_form");
+      form.addEventListener("submit", handleFormSubmit);
 
+      async function postFormDataAsJson({ url, formData }) {
+        const fetchOptions = {
+          method: "POST",
+          body: formData
+        };
+        const response = await fetch(url, fetchOptions);
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(errorMessage);
+        }
+        return response.json();
+      }
+
+      async function handleFormSubmit(event) {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const url = form.action;
+
+        try {
+          const formData = new FormData(form);
+          var hero_hand = formData.get('hand1') + formData.get('hand2')
+          formData.append('action', 'RFI');
+          formData.append('villan_position', 'BU');
+          formData.append('hero_position', 'CO');
+          formData.append('hero_hand', hero_hand);
+          console.log(formData.get(['hero_hand']))
+          console.log(hero_hand)
+
+
+          const responseData = await postFormDataAsJson({ url, formData });
+
+          console.log(responseData)
+          var contentDiv = document.getElementById("app");
+          contentDiv.innerHTML = responseData.win;
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+
+
+/*
+      var formData = new FormData(); // Currently empty
+      formData.append('action', 'RFI');
+      formData.append('villan_position', 'BU');
+      formData.append('hero_position', 'CO');
+      formData.append('hero_hand', 'KsJc');
+*/
+/*
+      //POST REQUEST
+      fetch('http://localhost:8080/calculate', {
+        method: 'POST',
+        body: formData
+      }).then(function (response) {
+        // The API call was successful!
+        if (response.ok) {
+          return response.json();
+        } else {
+          return Promise.reject(response);
+        }
+      }).then(function (data) {
+        // This is the JSON from our response
+        console.log(data);
+        var contentDiv = document.getElementById("app");
+        contentDiv.innerHTML = data.win;
+      }).catch(function (err) {
+        // There was an error
+        console.warn('Something went wrong.', err);
+      });
+*/
+/*
+      //GET REQUEST
       fetch('http://localhost:8080/calculate').then(function (response) {
         // The API call was successful!
         return response.json();
@@ -87,17 +162,19 @@
         // There was an error
         console.warn('Something went wrong.', err);
       });
+*/
 
-    // in main.js
+/*
+    // Example of event listening to change html elements
     function loadContent(){
       var contentDiv = document.getElementById("app");
       contentDiv.innerHTML = location.hash;
     }
 
-
     window.addEventListener("hashchange", loadContent);
 
     loadContent();
+*/
   </script>
 
 </body>

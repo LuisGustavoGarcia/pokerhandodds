@@ -49,10 +49,12 @@ def root():
 def getOdds():
     villan_hand = None
     board = ["Qc", "Th", "9s"]
-    hero_hand = Combo('KsJc')
-    action = "RFI"
-    villan_position = "BU"
-    hero_position = "CO"
+    hero_hand = Combo( request.form['hero_hand'])
+    action = request.form['action']
+    villan_position = request.form['villan_position']
+    hero_position =  request.form['hero_position']
+
+
     #Button RFI range -> Villian is on the button and raises first
     if action == "RFI" and villan_position == "BU":
         villan_range = Range('22+,A2s+,K2s+,Q2s+,J2s+,T2s+,95s+,85s+,74s+,63s+,53s+,43s,A2o+,K8o+,Q8o+,J8o+,T8o+,97o+,87o,76o,65o,54o')
@@ -108,6 +110,7 @@ def getOdds():
         status=200,
         mimetype='application/json'
     )
+    print(response)
     return response
 """
     if request.method == 'POST':
