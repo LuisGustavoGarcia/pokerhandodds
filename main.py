@@ -17,7 +17,7 @@ import datetime
 from poker.hand import Combo,Hand,Range
 from calculation import holdem_calc
 
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, json
 import asyncio
 import numpy as np
 #import pandas as pd
@@ -102,7 +102,13 @@ def getOdds():
     odds = {}
     [odds.update({odd_type: np.mean([res[0][odd_type] for res in items if res])}) for odd_type in ["tie", "win", "lose"]]
     #Odds as dictionary with tie, win, loss as keys
-    return str(odds.get("win"))
+    #return str(odds.get("win"))
+    response = app.response_class(
+        response=json.dumps(odds),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
 """
     if request.method == 'POST':
       user = request.form['nm']
