@@ -103,78 +103,15 @@
           formData.append('villan_position', 'BU');
           formData.append('hero_position', 'CO');
           formData.append('hero_hand', hero_hand);
-          console.log(formData.get(['hero_hand']))
-          console.log(hero_hand)
 
 
           const responseData = await postFormDataAsJson({ url, formData });
-
-          console.log(responseData)
           var contentDiv = document.getElementById("app");
           contentDiv.innerHTML = responseData.win;
         } catch (error) {
           console.error(error);
         }
       }
-
-
-
-/*
-      var formData = new FormData(); // Currently empty
-      formData.append('action', 'RFI');
-      formData.append('villan_position', 'BU');
-      formData.append('hero_position', 'CO');
-      formData.append('hero_hand', 'KsJc');
-*/
-/*
-      //POST REQUEST
-      fetch('http://localhost:8080/calculate', {
-        method: 'POST',
-        body: formData
-      }).then(function (response) {
-        // The API call was successful!
-        if (response.ok) {
-          return response.json();
-        } else {
-          return Promise.reject(response);
-        }
-      }).then(function (data) {
-        // This is the JSON from our response
-        console.log(data);
-        var contentDiv = document.getElementById("app");
-        contentDiv.innerHTML = data.win;
-      }).catch(function (err) {
-        // There was an error
-        console.warn('Something went wrong.', err);
-      });
-*/
-/*
-      //GET REQUEST
-      fetch('http://localhost:8080/calculate').then(function (response) {
-        // The API call was successful!
-        return response.json();
-      }).then(function (data) {
-        // This is the JSON from our response
-        console.log(data);
-        var contentDiv = document.getElementById("app");
-        contentDiv.innerHTML = data.win;
-      }).catch(function (err) {
-        // There was an error
-        console.warn('Something went wrong.', err);
-      });
-*/
-
-/*
-    // Example of event listening to change html elements
-    function loadContent(){
-      var contentDiv = document.getElementById("app");
-      contentDiv.innerHTML = location.hash;
-    }
-
-    window.addEventListener("hashchange", loadContent);
-
-    loadContent();
-*/
   </script>
 
 </body>

@@ -110,13 +110,9 @@ def getOdds():
         status=200,
         mimetype='application/json'
     )
-    print(response)
     return response
 """
-    if request.method == 'POST':
-      user = request.form['nm']
-      return redirect(url_for('success',name = user))
-    else:
+    if request.method == 'GET':
         villian_hand = request.args.get('villian-hand')
         hero_hand = request.args.get('hero-hand')
         board = request.args.get('board')
