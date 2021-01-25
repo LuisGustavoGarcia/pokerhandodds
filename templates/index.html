@@ -52,25 +52,25 @@
       <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
     </div>
   </div>
+  <form action="/calculate" method="post" id="calculate_form">
+    <div class="row">
+      <div class="col-3">
 
-  <div class="row">
-    <div class="col-3">
-      <form action="/calculate" method="post" id="calculate_form">
-        <input type="text" maxlength="3" class="card-input hidden" name="hand1">
-        <input type="text" maxlength="3" class="card-input hidden" name="hand2">
-        
-        <input type="submit" value="Calculate">
-      </form> 
-    </div>
-    <div class="col-9">
-      <input type="text" maxlength="3" class="card-input hidden" name="board1">
-      <input type="text" maxlength="3" class="card-input hidden" name="board2">
-      <input type="text" maxlength="3" class="card-input hidden" name="board3">
-      <input type="text" maxlength="3" class="card-input hidden" name="board4">
-      <input type="text" maxlength="3" class="card-input hidden" name="board5">
-    </div>
-  </div>
+          <input type="text" maxlength="3" class="card-input hidden" name="hand1">
+          <input type="text" maxlength="3" class="card-input hidden" name="hand2">
+          
+          <input type="submit" value="Calculate">
 
+      </div>
+      <div class="col-9">
+        <input type="text" maxlength="3" class="card-input hidden" name="board1">
+        <input type="text" maxlength="3" class="card-input hidden" name="board2">
+        <input type="text" maxlength="3" class="card-input hidden" name="board3">
+        <input type="text" maxlength="3" class="card-input hidden" name="board4">
+        <input type="text" maxlength="3" class="card-input hidden" name="board5">
+      </div>
+    </div>
+  </form> 
 
 
   <div id="app"></div>
@@ -99,6 +99,10 @@
         try {
           const formData = new FormData(form);
           var hero_hand = formData.get('hand1') + formData.get('hand2')
+
+          var board_state = formData.get('board1') + formData.get('board2') + formData.get('board3') + formData.get('board4') + formData.get('board5')
+
+
           formData.append('action', 'RFI');
           formData.append('villan_position', 'BU');
           formData.append('hero_position', 'CO');
