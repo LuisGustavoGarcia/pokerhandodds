@@ -24,7 +24,7 @@ let playerHandCardImages = [];
 let boardCardImages = [];
 let progressbarElems = [null, null, null, null];
 function isValidCard(card) {
-    let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaTtJjQqKk]{1}))[SsHhCcDd]{1}');
+    let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaJjQqKk]{1}))[SsHhCcDd]{1}');
     console.log(regex.test(card));
     return regex.test(card);
 }
