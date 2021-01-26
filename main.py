@@ -49,19 +49,18 @@ def root():
 @app.route('/calculate',methods = ['POST', 'GET'])
 def getOdds():
     villan_hand = None
+    print(request.form['board1'])
+    print(request.form['board2'])
 
-    # flop = [request.form['board1'], request.form['board2'], request.form['board3']]
-    # turn = request.form['board4']
-    # board = flop
-    # river = request.form['board5']
-    # if len(turn) != 0:
-    #     board.append(turn)
-    # if len(river) != 0:
-    #     board.append(river)
+    flop = [request.form['board1'], request.form['board2'], request.form['board3']]
+    turn = request.form['board4']
+    board = flop
+    river = request.form['board5']
+    if len(turn) != 0:
+        board.append(turn)
+    if len(river) != 0:
+        board.append(river)    
 
-    board = ['Qh', 'Qc', 'Qd']
-    
-    print(request.form['hero_hand'])
     hero_hand = Combo( request.form['hero_hand'])
     action = request.form['action']
     villan_position = request.form['villan_position']

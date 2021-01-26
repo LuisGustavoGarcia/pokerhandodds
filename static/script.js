@@ -24,7 +24,7 @@ let playerHandCardImages = [];
 let boardCardImages = [];
 let progressbarElems = [null, null, null, null];
 function isValidCard(card) {
-    let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaJjQqKk]{1}))[SsHhCcDd]{1}');
+    let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaTtJjQqKk]{1}))[SsHhCcDd]{1}');
     console.log(regex.test(card));
     return regex.test(card);
 }
@@ -278,10 +278,12 @@ function postFormDataAsJson({ url, formData }) {
 }
 function handleFormSubmit(event) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("enn");
         event.preventDefault();
         const form = event.currentTarget;
         const url = form.action;
         try {
+            console.log("Hi Liam");
             let formData = new FormData(form);
             let hero_hand = formData.get('hand1') + (formData.get('hand2'));
             console.log("Hero Hand: ", hero_hand);
@@ -294,6 +296,7 @@ function handleFormSubmit(event) {
             contentDiv.innerHTML = responseData.win;
         }
         catch (error) {
+            console.log("ennaaa");
             console.error(error);
         }
     });

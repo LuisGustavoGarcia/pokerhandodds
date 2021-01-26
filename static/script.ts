@@ -298,11 +298,13 @@ async function postFormDataAsJson({ url, formData }) {
 }
 
 async function handleFormSubmit(event) {
+  console.log("enn")
   event.preventDefault();
   const form = event.currentTarget;
   const url = form.action;
 
   try {
+    console.log("Hi Liam")
     let formData = new FormData(form);
     let hero_hand = <string>formData.get('hand1') + <string>(formData.get('hand2'));
     console.log("Hero Hand: ", hero_hand);
@@ -315,6 +317,8 @@ async function handleFormSubmit(event) {
     let contentDiv = document.getElementById("app");
     contentDiv.innerHTML = responseData.win;
   } catch (error) {
+    console.log("ennaaa")
+
     console.error(error);
   }
 }
