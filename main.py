@@ -49,12 +49,13 @@ def root():
 @app.route('/calculate',methods = ['POST', 'GET'])
 def getOdds():
     villan_hand = None
-    print(request.form['board1'])
-    print(request.form['board2'])
-
     flop = [request.form['board1'], request.form['board2'], request.form['board3']]
+    #Error handling
+    if len(flop[0]) == 0:
+        board = ['5d','6d','7d']
+    else:
+        board = flop
     turn = request.form['board4']
-    board = flop
     river = request.form['board5']
     if len(turn) != 0:
         board.append(turn)
