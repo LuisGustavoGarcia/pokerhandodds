@@ -23,9 +23,12 @@ let boardInputs = [null, null, null, null, null];
 let playerHandCardImages = [];
 let boardCardImages = [];
 let progressbarElems = [null, null, null, null];
+let calculationProgressBar;
+let calculationProgressPercent;
+let calculationProgressText;
+let calculationProgressBarUpdateInterval;
 function isValidCard(card) {
     let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaTtJjQqKk]{1}))[SsHhCcDd]{1}');
-    console.log(regex.test(card));
     return regex.test(card);
 }
 function cardNotAlreadyUsed(card) {
@@ -278,34 +281,51 @@ function postFormDataAsJson({ url, formData }) {
 }
 function handleFormSubmit(event) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("enn");
         event.preventDefault();
         const form = event.currentTarget;
         const url = form.action;
         try {
-            console.log("Hi Liam");
             let formData = new FormData(form);
             let hero_hand = formData.get('hand1') + (formData.get('hand2'));
-            console.log("Hero Hand: ", hero_hand);
             formData.append('action', 'RFI');
-            formData.append('villan_position', 'BU');
+            formData.append('villain_position', 'BU');
             formData.append('hero_position', 'CO');
             formData.append('hero_hand', hero_hand);
             const responseData = yield postFormDataAsJson({ url, formData });
-            let contentDiv = document.getElementById("app");
+            let contentDiv = document.getElementById('app');
             contentDiv.innerHTML = responseData.win;
         }
         catch (error) {
-            console.log("ennaaa");
             console.error(error);
         }
     });
 }
+function updateCalculationProgressBar() {
+    return __awaiter(this, void 0, void 0, function* () {
+        fetch('http://localhost:8080/calculate').then(function (response) {
+            console.log('success!', response);
+        }).catch(function (err) {
+            console.warn('Something went wrong.', err);
+        });
+    });
+}
+function showCalculationProgress() {
+    calculationProgressBar.classList.replace('hidden', 'visible');
+    calculationProgressBarUpdateInterval = setInterval(updateCalculationProgressBar, 10); // Update the progress bar every 10ms.
+}
+function hideCalculationProgress() {
+    calculationProgressBar.classList.replace('visible', 'hidden');
+    clearInterval(calculationProgressBarUpdateInterval);
+}
 function addFormEventListener() {
-    const form = document.getElementById("calculate_form");
-    form.addEventListener("submit", handleFormSubmit);
+    const form = document.getElementById('calculate_form');
+    form.addEventListener('submit', handleFormSubmit);
+    form.addEventListener('submit', showCalculationProgress);
 }
 window.addEventListener('load', function () {
+    calculationProgressBar = document.getElementsByClassName('calculation-progress-bar-container')[0];
+    calculationProgressPercent = document.getElementsByClassName('level')[0];
+    calculationProgressText = document.getElementById('calculation-progress-txt');
     addInputFieldEventListeners();
     addProgressBarEventListeners();
     addFormEventListener();
