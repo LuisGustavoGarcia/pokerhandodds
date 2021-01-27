@@ -1,4 +1,13 @@
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var Turn;
 (function (Turn) {
     Turn[Turn["Preflop"] = 0] = "Preflop";
@@ -6,28 +15,28 @@ var Turn;
     Turn[Turn["Turn"] = 2] = "Turn";
     Turn[Turn["River"] = 3] = "River";
 })(Turn || (Turn = {}));
-var currentTurn;
-var playerHand = [null, null];
-var board = [null, null, null, null, null];
-var handInputs = [null, null];
-var boardInputs = [null, null, null, null, null];
-var playerHandCardImages = [];
-var boardCardImages = [];
-var progressbarElems = [null, null, null, null];
+let currentTurn;
+let playerHand = [null, null];
+let board = [null, null, null, null, null];
+let handInputs = [null, null];
+let boardInputs = [null, null, null, null, null];
+let playerHandCardImages = [];
+let boardCardImages = [];
+let progressbarElems = [null, null, null, null];
 function isValidCard(card) {
-    var regex = new RegExp('(([1]{1}[0]{1})|([2-9AaJjQqKk]{1}))[SsHhCcDd]{1}');
+    let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaTtJjQqKk]{1}))[SsHhCcDd]{1}');
     console.log(regex.test(card));
     return regex.test(card);
 }
 function cardNotAlreadyUsed(card) {
-    for (var i = 0; i < playerHand.length; i++) {
-        var element = playerHand[i];
+    for (let i = 0; i < playerHand.length; i++) {
+        let element = playerHand[i];
         if (element === card) {
             return false;
         }
     }
-    for (var i = 0; i < board.length; i++) {
-        var element = board[i];
+    for (let i = 0; i < board.length; i++) {
+        let element = board[i];
         if (element === card) {
             return false;
         }
@@ -35,9 +44,9 @@ function cardNotAlreadyUsed(card) {
     return true;
 }
 function getCardUrl(card) {
-    var url = "";
-    var rank;
-    var suit;
+    let url = "";
+    let rank;
+    let suit;
     if (card.length == 2) {
         rank = card[0].toLowerCase();
         suit = card[1].toLowerCase();
@@ -95,6 +104,9 @@ function getCardUrl(card) {
         case '10':
             url += "_10";
             break;
+        case 't':
+            url += "_10";
+            break;
         case 'j':
             url += "_11";
             break;
@@ -110,11 +122,11 @@ function getCardUrl(card) {
 }
 function updateCardImage(index, isInHand) {
     if (isInHand) {
-        var cardUrl = getCardUrl(playerHand[index]);
+        let cardUrl = getCardUrl(playerHand[index]);
         playerHandCardImages[index].src = "/static/deck-of-cards/faces/" + cardUrl;
     }
     else {
-        var cardUrl = getCardUrl(board[index]);
+        let cardUrl = getCardUrl(board[index]);
         boardCardImages[index].src = "/static/deck-of-cards/faces/" + cardUrl;
     }
 }
@@ -138,31 +150,31 @@ function boardUpdated(card, index) {
 }
 function addInputFieldEventListeners() {
     handInputs[0] = document.getElementsByName("hand1")[0];
-    handInputs[0].addEventListener('input', function (evt) {
+    handInputs[0].addEventListener('input', function () {
         handUpdated(handInputs[0].value, 0);
     });
     handInputs[1] = document.getElementsByName("hand2")[0];
-    handInputs[1].addEventListener('input', function (evt) {
+    handInputs[1].addEventListener('input', function () {
         handUpdated(handInputs[1].value, 1);
     });
     boardInputs[0] = document.getElementsByName("board1")[0];
-    boardInputs[0].addEventListener('input', function (evt) {
+    boardInputs[0].addEventListener('input', function () {
         boardUpdated(boardInputs[0].value, 0);
     });
     boardInputs[1] = document.getElementsByName("board2")[0];
-    boardInputs[1].addEventListener('input', function (evt) {
+    boardInputs[1].addEventListener('input', function () {
         boardUpdated(boardInputs[1].value, 1);
     });
     boardInputs[2] = document.getElementsByName("board3")[0];
-    boardInputs[2].addEventListener('input', function (evt) {
+    boardInputs[2].addEventListener('input', function () {
         boardUpdated(boardInputs[2].value, 2);
     });
     boardInputs[3] = document.getElementsByName("board4")[0];
-    boardInputs[3].addEventListener('input', function (evt) {
+    boardInputs[3].addEventListener('input', function () {
         boardUpdated(boardInputs[3].value, 3);
     });
     boardInputs[4] = document.getElementsByName("board5")[0];
-    boardInputs[4].addEventListener('input', function (evt) {
+    boardInputs[4].addEventListener('input', function () {
         boardUpdated(boardInputs[4].value, 4);
     });
 }
@@ -189,25 +201,22 @@ function addProgressBarEventListeners() {
     progressbarElems[1] = document.getElementsByClassName("steptwo")[0];
     progressbarElems[2] = document.getElementsByClassName("stepthree")[0];
     progressbarElems[3] = document.getElementsByClassName("stepfour")[0];
-    var _loop_1 = function (i) {
-        progressbarElems[i].addEventListener('click', function (evt) {
+    for (let i = 0; i < progressbarElems.length; i++) {
+        progressbarElems[i].addEventListener('click', function () {
             turnCompleted(i);
         });
-    };
-    for (var i = 0; i < progressbarElems.length; i++) {
-        _loop_1(i);
     }
 }
 function updateProgressBar() {
     progressbarElems[currentTurn].classList.remove("done");
     progressbarElems[currentTurn].classList.add("current");
     progressbarElems[currentTurn].classList.add("todo");
-    for (var i = 0; i < currentTurn; i++) {
+    for (let i = 0; i < currentTurn; i++) {
         progressbarElems[i].classList.remove("todo");
         progressbarElems[i].classList.remove("current");
         progressbarElems[i].classList.add("done");
     }
-    for (var i = currentTurn + 1; i < 4; i++) {
+    for (let i = currentTurn + 1; i < 4; i++) {
         progressbarElems[i].classList.remove("current");
         progressbarElems[i].classList.remove("done");
         progressbarElems[i].classList.add("todo");
@@ -253,9 +262,53 @@ function showTurnInputs() {
             break;
     }
 }
+function postFormDataAsJson({ url, formData }) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const fetchOptions = {
+            method: "POST",
+            body: formData
+        };
+        const response = yield fetch(url, fetchOptions);
+        if (!response.ok) {
+            const errorMessage = yield response.text();
+            throw new Error(errorMessage);
+        }
+        return response.json();
+    });
+}
+function handleFormSubmit(event) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("enn");
+        event.preventDefault();
+        const form = event.currentTarget;
+        const url = form.action;
+        try {
+            console.log("Hi Liam");
+            let formData = new FormData(form);
+            let hero_hand = formData.get('hand1') + (formData.get('hand2'));
+            console.log("Hero Hand: ", hero_hand);
+            formData.append('action', 'RFI');
+            formData.append('villan_position', 'BU');
+            formData.append('hero_position', 'CO');
+            formData.append('hero_hand', hero_hand);
+            const responseData = yield postFormDataAsJson({ url, formData });
+            let contentDiv = document.getElementById("app");
+            contentDiv.innerHTML = responseData.win;
+        }
+        catch (error) {
+            console.log("ennaaa");
+            console.error(error);
+        }
+    });
+}
+function addFormEventListener() {
+    const form = document.getElementById("calculate_form");
+    form.addEventListener("submit", handleFormSubmit);
+}
 window.addEventListener('load', function () {
     addInputFieldEventListeners();
     addProgressBarEventListeners();
+    addFormEventListener();
     currentTurn = Turn.Preflop;
     showTurnInputs();
     playerHandCardImages = Array.prototype.slice.call(document.getElementsByClassName("hand-card"));

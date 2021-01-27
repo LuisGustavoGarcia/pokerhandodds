@@ -17,7 +17,7 @@ import datetime
 from poker.hand import Combo,Hand,Range
 from calculation import holdem_calc
 
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, json
 import asyncio
 import numpy as np
 #import pandas as pd
@@ -45,14 +45,28 @@ def narrowRange(action, villian_position):
 @app.route('/')
 def root():
     return render_template('index.html')
+
 @app.route('/calculate',methods = ['POST', 'GET'])
 def getOdds():
     villan_hand = None
-    board = ["Qc", "Th", "9s"]
-    hero_hand = Combo('KsJc')
-    action = "RFI"
-    villan_position = "BU"
-    hero_position = "CO"
+    print(request.form['board1'])
+    print(request.form['board2'])
+
+    flop = [request.form['board1'], request.form['board2'], request.form['board3']]
+    turn = request.form['board4']
+    board = flop
+    river = request.form['board5']
+    if len(turn) != 0:
+        board.append(turn)
+    if len(river) != 0:
+        board.append(river)    
+
+    hero_hand = Combo( request.form['hero_hand'])
+    action = request.form['action']
+    villan_position = request.form['villan_position']
+    hero_position =  request.form['hero_position']
+
+
     #Button RFI range -> Villian is on the button and raises first
     if action == "RFI" and villan_position == "BU":
         villan_range = Range('22+,A2s+,K2s+,Q2s+,J2s+,T2s+,95s+,85s+,74s+,63s+,53s+,43s,A2o+,K8o+,Q8o+,J8o+,T8o+,97o+,87o,76o,65o,54o')
@@ -102,12 +116,15 @@ def getOdds():
     odds = {}
     [odds.update({odd_type: np.mean([res[0][odd_type] for res in items if res])}) for odd_type in ["tie", "win", "lose"]]
     #Odds as dictionary with tie, win, loss as keys
-    return str(odds.get("win"))
+    #return str(odds.get("win"))
+    response = app.response_class(
+        response=json.dumps(odds),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
 """
-    if request.method == 'POST':
-      user = request.form['nm']
-      return redirect(url_for('success',name = user))
-    else:
+    if request.method == 'GET':
         villian_hand = request.args.get('villian-hand')
         hero_hand = request.args.get('hero-hand')
         board = request.args.get('board')

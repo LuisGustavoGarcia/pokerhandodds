@@ -17,7 +17,7 @@ let boardCardImages : Element[] = [];
 let progressbarElems : Element[] = [null, null, null, null];
 
 function isValidCard(card: string): boolean {
-  let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaJjQqKk]{1}))[SsHhCcDd]{1}');
+  let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaTtJjQqKk]{1}))[SsHhCcDd]{1}');
   console.log(regex.test(card));
   return regex.test(card);
 }
@@ -103,6 +103,9 @@ function getCardUrl(card: string): string {
     case '10':
       url += "_10";
       break;
+    case 't':
+      url += "_10";
+      break;
     case 'j':
       url += "_11";
       break;
@@ -151,37 +154,37 @@ function boardUpdated(card: string, index: number): void {
 
 function addInputFieldEventListeners(): void {
   handInputs[0] = document.getElementsByName("hand1")[0];
-  handInputs[0].addEventListener('input', function (evt) {
+  handInputs[0].addEventListener('input', function () {
     handUpdated((<HTMLInputElement>handInputs[0]).value, 0);
   });
 
   handInputs[1] = document.getElementsByName("hand2")[0];
-  handInputs[1].addEventListener('input', function (evt) {
+  handInputs[1].addEventListener('input', function () {
     handUpdated((<HTMLInputElement>handInputs[1]).value, 1);
   });
 
   boardInputs[0] = document.getElementsByName("board1")[0];
-  boardInputs[0].addEventListener('input', function (evt) {
+  boardInputs[0].addEventListener('input', function () {
     boardUpdated((<HTMLInputElement>boardInputs[0]).value, 0);
   });
 
   boardInputs[1] = document.getElementsByName("board2")[0];
-  boardInputs[1].addEventListener('input', function (evt) {
+  boardInputs[1].addEventListener('input', function () {
     boardUpdated((<HTMLInputElement>boardInputs[1]).value, 1);
   });
 
   boardInputs[2] = document.getElementsByName("board3")[0];
-  boardInputs[2].addEventListener('input', function (evt) {
+  boardInputs[2].addEventListener('input', function () {
     boardUpdated((<HTMLInputElement>boardInputs[2]).value, 2);
   });
 
   boardInputs[3] = document.getElementsByName("board4")[0];
-  boardInputs[3].addEventListener('input', function (evt) {
+  boardInputs[3].addEventListener('input', function () {
     boardUpdated((<HTMLInputElement>boardInputs[3]).value, 3);
   });
 
   boardInputs[4] = document.getElementsByName("board5")[0];
-  boardInputs[4].addEventListener('input', function (evt) {
+  boardInputs[4].addEventListener('input', function () {
     boardUpdated((<HTMLInputElement>boardInputs[4]).value, 4);
   });
 }
@@ -212,7 +215,7 @@ function addProgressBarEventListeners(): void {
   progressbarElems[3] = document.getElementsByClassName("stepfour")[0];
 
   for (let i = 0; i < progressbarElems.length; i++) {
-    progressbarElems[i].addEventListener('click', function(evt) {
+    progressbarElems[i].addEventListener('click', function() {
       turnCompleted(i);
     });
   }
@@ -281,9 +284,54 @@ function showTurnInputs(): void {
   }
 }
 
+async function postFormDataAsJson({ url, formData }) {
+  const fetchOptions = {
+    method: "POST",
+    body: formData
+  };
+  const response = await fetch(url, fetchOptions);
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new Error(errorMessage);
+  }
+  return response.json();
+}
+
+async function handleFormSubmit(event) {
+  console.log("enn")
+  event.preventDefault();
+  const form = event.currentTarget;
+  const url = form.action;
+
+  try {
+    console.log("Hi Liam")
+    let formData = new FormData(form);
+    let hero_hand = <string>formData.get('hand1') + <string>(formData.get('hand2'));
+    console.log("Hero Hand: ", hero_hand);
+    formData.append('action', 'RFI');
+    formData.append('villan_position', 'BU');
+    formData.append('hero_position', 'CO');
+    formData.append('hero_hand', hero_hand);
+
+    const responseData = await postFormDataAsJson({ url, formData });
+    let contentDiv = document.getElementById("app");
+    contentDiv.innerHTML = responseData.win;
+  } catch (error) {
+    console.log("ennaaa")
+
+    console.error(error);
+  }
+}
+
+function addFormEventListener(){
+  const form = document.getElementById("calculate_form");
+  form.addEventListener("submit", handleFormSubmit);
+}
+
 window.addEventListener('load', function () {
   addInputFieldEventListeners();
   addProgressBarEventListeners();
+  addFormEventListener();
   
   currentTurn = Turn.Preflop;
   showTurnInputs();

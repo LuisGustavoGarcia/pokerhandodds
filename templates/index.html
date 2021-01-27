@@ -52,19 +52,26 @@
       <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
     </div>
   </div>
+  <form action="/calculate" method="post" id="calculate_form">
+    <div class="row">
+      <div class="col-3">
 
-  <div class="row">
-    <div class="col-3">
-      <input type="text" maxlength="3" class="card-input hidden" name="hand1">
-      <input type="text" maxlength="3" class="card-input hidden" name="hand2">
+          <input type="text" maxlength="3" class="card-input hidden" name="hand1">
+          <input type="text" maxlength="3" class="card-input hidden" name="hand2">
+          
+          <input type="submit" value="Calculate">
+      </div>
+      <div class="col-9">
+        <input type="text" maxlength="3" class="card-input hidden" name="board1">
+        <input type="text" maxlength="3" class="card-input hidden" name="board2">
+        <input type="text" maxlength="3" class="card-input hidden" name="board3">
+        <input type="text" maxlength="3" class="card-input hidden" name="board4">
+        <input type="text" maxlength="3" class="card-input hidden" name="board5">
+      </div>
     </div>
-    <div class="col-9">
-      <input type="text" maxlength="3" class="card-input hidden" name="board1">
-      <input type="text" maxlength="3" class="card-input hidden" name="board2">
-      <input type="text" maxlength="3" class="card-input hidden" name="board3">
-      <input type="text" maxlength="3" class="card-input hidden" name="board4">
-      <input type="text" maxlength="3" class="card-input hidden" name="board5">
-    </div>
-  </div>
+  </form>
+
+  <div id="app"></div>
+
 </body>
 </html>
