@@ -281,6 +281,8 @@ function postFormDataAsJson({ url, formData }) {
 }
 function handleFormSubmit(event) {
     return __awaiter(this, void 0, void 0, function* () {
+        let odds = document.getElementById("app");
+        odds.innerText = "";
         event.preventDefault();
         const form = event.currentTarget;
         const url = form.action;
