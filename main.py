@@ -26,6 +26,7 @@ app = Flask(__name__)
 #Narrows villians range by taking the preflop action as input
 #Hero will be RFI / vs. Raise / vs. 3-bet / 4-bet / etc. against x position to narrow ranges
 #Assumes GTO preflop 100BB deep and hero follows charts
+
 def narrowRange(action, villian_position):
     #Button RFI range -> Villian is on the button and raises first
     if action == "RFI" and villian_position == "BU":
@@ -97,8 +98,7 @@ def getOdds():
     if len(turn) != 0:
         board.append(turn)
     if len(river) != 0:
-        board.append(river)    
-
+        board.append(river)
     hero_hand = Combo( request.form['hero_hand'])
     action = request.form['action']
     villain_position = request.form['villain_position']

@@ -19,7 +19,7 @@ let progressbarElems : Element[] = [null, null, null, null];
 let calculationProgressBar : Element;
 let calculationProgressPercent : Element;
 let calculationProgressText : Element;
-let calculationProgressBarUpdateInterval;
+let calculationProgressBarUpdateInterval = 0;
 
 function isValidCard(card: string): boolean {
   let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaTtJjQqKk]{1}))[SsHhCcDd]{1}');
@@ -322,29 +322,30 @@ async function handleFormSubmit(event) {
   }
 }
 
-async function updateCalculationProgressBar(){
-  fetch('http://localhost:8080/calculate').then(function (response) {
-    console.log('success!', response);
-
-  }).catch(function (err) {
-    console.warn('Something went wrong.', err);
-  });
+function checkIfCalculationFinished(){
+  let odds = document.getElementById("app");
+  if (odds) {
+    let oddsInnerText = odds.innerText;
+    if (oddsInnerText != ''){
+      hideLoadingBar();
+    }
+  }
 }
 
-function showCalculationProgress(){
+function showLoadingBar(){
   calculationProgressBar.classList.replace('hidden', 'visible');
-  calculationProgressBarUpdateInterval = setInterval(updateCalculationProgressBar, 10); // Update the progress bar every 10ms.
+  calculationProgressBarUpdateInterval = window.setInterval(checkIfCalculationFinished, 10); // Update the progress bar every 10ms.
 }
 
-function hideCalculationProgress(){
+function hideLoadingBar(){
   calculationProgressBar.classList.replace('visible', 'hidden');
-  clearInterval(calculationProgressBarUpdateInterval);
+  window.clearInterval(calculationProgressBarUpdateInterval);
 }
 
 function addFormEventListener(){
   const form = document.getElementById('calculate_form');
   form.addEventListener('submit', handleFormSubmit);
-  form.addEventListener('submit', showCalculationProgress);
+  form.addEventListener('submit', showLoadingBar);
 }
 
 window.addEventListener('load', function () {

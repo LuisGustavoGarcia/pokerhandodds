@@ -214,57 +214,55 @@ body {
 /* Calculation Progress Bar */
 
 .calculation-progress-bar-container {
-  width: 40%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px;
-  background: #fff;
-  box-sizing: border-box;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
 }
 
-h1 {
-  margin: 0;
-  padding: 0;
-  color: #000000;
-  letter-spacing: 4px;
+.loader {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
-.progress-bar {
-  box-sizing: border-box;
-  width: 100%;
-  margin: 20px 0;
+.bar1 {
+  width: 10px;
+  height: 5px;
+  background: #f43d4d;
+  margin: 2px;
+  animation: bar 1s infinite linear;
+  animation-delay: 0s;
 }
 
-.progress-bar p{
-  color: #000000;
-  margin: 0 0 10px;
-  padding: 0;
-  font-weight: bold;
+.bar2 {
+  width: 10px;
+  height: 5px;
+  background: #f43d4d;
+  margin: 2px;
+  animation: bar 1s infinite linear;
+  animation-delay: 0.25s;
 }
 
-.progress-bar p:nth-child(2){
-  float: right;
-  position: relative;
-  top: -30px;
+.bar3 {
+  width: 10px;
+  height: 5px;
+  background: #f43d4d;
+  margin: 2px;
+  animation: bar 1s infinite linear;
+  animation-delay: 0.5s;
 }
 
-.percentage{
-  background: #333333;
-  padding: 4px;
-  box-sizing: border-box;
-  border: 0.5px solid #009999;
-  border-radius: 6px;
-}
+@keyframes bar {
+	0% {
+		transform: scaleY(1) scaleX(0.5);
+	}
 
-.level{
-  background: #009999;
-  width: 0%;
-  height: 10px;
-  border-radius: 6px;
-  
-  animation: level 3s infinite;
+	50% {
+		transform: scaleY(10) scaleX(1);
+	}
+
+	100% {
+		transform: scaleY(1) scaleX(0.5);
+	}
 }
