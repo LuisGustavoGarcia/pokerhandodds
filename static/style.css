@@ -55,7 +55,7 @@ body {
 }
 
 /* PROGRESS BAR */
-.container {
+.turn-progress-bar-container {
   width: auto;
   margin: 50px auto;
   font-family: Arial, sans-serif;
@@ -209,4 +209,60 @@ body {
 
 .visible {
   visibility: visible;
+}
+
+/* Calculation Progress Bar */
+
+.calculation-progress-bar-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loader {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.bar1 {
+  width: 10px;
+  height: 5px;
+  background: #f43d4d;
+  margin: 2px;
+  animation: bar 1s infinite linear;
+  animation-delay: 0s;
+}
+
+.bar2 {
+  width: 10px;
+  height: 5px;
+  background: #f43d4d;
+  margin: 2px;
+  animation: bar 1s infinite linear;
+  animation-delay: 0.25s;
+}
+
+.bar3 {
+  width: 10px;
+  height: 5px;
+  background: #f43d4d;
+  margin: 2px;
+  animation: bar 1s infinite linear;
+  animation-delay: 0.5s;
+}
+
+@keyframes bar {
+	0% {
+		transform: scaleY(1) scaleX(0.5);
+	}
+
+	50% {
+		transform: scaleY(10) scaleX(1);
+	}
+
+	100% {
+		transform: scaleY(1) scaleX(0.5);
+	}
 }

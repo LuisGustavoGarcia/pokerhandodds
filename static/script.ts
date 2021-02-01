@@ -16,9 +16,13 @@ let playerHandCardImages : Element[] = [];
 let boardCardImages : Element[] = [];
 let progressbarElems : Element[] = [null, null, null, null];
 
+let calculationProgressBar : Element;
+let calculationProgressPercent : Element;
+let calculationProgressText : Element;
+let calculationProgressBarUpdateInterval = 0;
+
 function isValidCard(card: string): boolean {
   let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaTtJjQqKk]{1}))[SsHhCcDd]{1}');
-  console.log(regex.test(card));
   return regex.test(card);
 }
 
@@ -298,6 +302,9 @@ async function postFormDataAsJson({ url, formData }) {
 }
 
 async function handleFormSubmit(event) {
+  let odds = document.getElementById("app");
+  odds.innerText = "";
+  
   event.preventDefault();
   const form = event.currentTarget;
   const url = form.action;
@@ -306,25 +313,49 @@ async function handleFormSubmit(event) {
     let formData = new FormData(form);
     let hero_hand = <string>formData.get('hand1') + <string>(formData.get('hand2'));
     formData.append('action', 'RFI');
-    formData.append('villan_position', 'BU');
+    formData.append('villain_position', 'BU');
     formData.append('hero_position', 'CO');
     formData.append('hero_hand', hero_hand);
 
     const responseData = await postFormDataAsJson({ url, formData });
-    let contentDiv = document.getElementById("app");
+    let contentDiv = document.getElementById('app');
     contentDiv.innerHTML = responseData.win;
   } catch (error) {
-
     console.error(error);
   }
 }
 
+function checkIfCalculationFinished(){
+  let odds = document.getElementById("app");
+  if (odds) {
+    let oddsInnerText = odds.innerText;
+    if (oddsInnerText != ''){
+      hideLoadingBar();
+    }
+  }
+}
+
+function showLoadingBar(){
+  calculationProgressBar.classList.replace('hidden', 'visible');
+  calculationProgressBarUpdateInterval = window.setInterval(checkIfCalculationFinished, 10); // Update the progress bar every 10ms.
+}
+
+function hideLoadingBar(){
+  calculationProgressBar.classList.replace('visible', 'hidden');
+  window.clearInterval(calculationProgressBarUpdateInterval);
+}
+
 function addFormEventListener(){
-  const form = document.getElementById("calculate_form");
-  form.addEventListener("submit", handleFormSubmit);
+  const form = document.getElementById('calculate_form');
+  form.addEventListener('submit', handleFormSubmit);
+  form.addEventListener('submit', showLoadingBar);
 }
 
 window.addEventListener('load', function () {
+  calculationProgressBar = document.getElementsByClassName('calculation-progress-bar-container')[0];
+  calculationProgressPercent = document.getElementsByClassName('level')[0];
+  calculationProgressText = document.getElementById('calculation-progress-txt');
+
   addInputFieldEventListeners();
   addProgressBarEventListeners();
   addFormEventListener();

@@ -8,7 +8,6 @@
 </head>
 <body>
   <script src="{{ url_for('static', filename='deck-of-cards/deck.js') }}"></script>
-  <h1>Poker Hand Odds Learning Tool</h1>
   <header>
     <h1>Poker Hand Odds</h1>
   </header>
@@ -16,7 +15,7 @@
   <div class="row">
     <div class="col-1"></div>
     <div class="col-10">
-      <div class="container">
+      <div class="turn-progress-bar-container">
         <div class="progress-wrap">
          <ol class="progress-wizard">
            <li class="progress-point current todo stepone">Pre Flop</li>
@@ -55,11 +54,8 @@
   <form action="/calculate" method="post" id="calculate_form">
     <div class="row">
       <div class="col-3">
-
           <input type="text" maxlength="3" class="card-input hidden" name="hand1">
           <input type="text" maxlength="3" class="card-input hidden" name="hand2">
-          
-          <input type="submit" value="Calculate">
       </div>
       <div class="col-9">
         <input type="text" maxlength="3" class="card-input hidden" name="board1">
@@ -69,9 +65,24 @@
         <input type="text" maxlength="3" class="card-input hidden" name="board5">
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-6">
+        <input type="submit" value="Calculate">
+      </div>
+      <div class="col-6">   
+        <div id="app"></div>
+      </div>
+    </div>
   </form>
 
-  <div id="app"></div>
+  <div class="calculation-progress-bar-container hidden">
+    <div class="loader">
+      <div class="bar1"></div>
+      <div class="bar2"></div>
+      <div class="bar3"></div>
+    </div>
+  </div>
 
 </body>
 </html>
