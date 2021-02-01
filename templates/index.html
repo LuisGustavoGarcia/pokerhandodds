@@ -13,8 +13,7 @@
   </header>
   
   <div class="row">
-    <div class="col-1"></div>
-    <div class="col-10">
+    <div class="col-12">
       <div class="turn-progress-bar-container">
         <div class="progress-wrap">
          <ol class="progress-wizard">
@@ -26,43 +25,43 @@
          </div>
        </div>
     </div>
-    <div class="col-1"></div>
-  </div>
-
-  <div class="row">
-    <div class="col-3">
-      <h3>Your Hand</h3>  
-    </div>
-    <div class="col-9">
-      <h3>Board</h3>  
-    </div>
   </div>
   
   <div class="row">
-    <div class="col-3">
-      <img class="card hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="card hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    <div class="col-6">
+      <div class="hand">
+        <h3>Your Hand</h3>  
+        <img class="card hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+        <img class="card hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      </div>
     </div>
-    <div class="col-9">
-      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    <div class="col-6">
+      <div class="board">
+        <h3>Board</h3>  
+        <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+        <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+        <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+        <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+        <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      </div>
     </div>
   </div>
   <form action="/calculate" method="post" id="calculate_form">
     <div class="row">
-      <div class="col-3">
-          <input type="text" maxlength="3" class="card-input hidden" name="hand1">
-          <input type="text" maxlength="3" class="card-input hidden" name="hand2">
+      <div class="col-6">
+          <div class="hand">
+            <input type="text" maxlength="3" class="card-input hidden" name="hand1">
+            <input type="text" maxlength="3" class="card-input hidden" name="hand2">
+          </div>
       </div>
-      <div class="col-9">
-        <input type="text" maxlength="3" class="card-input hidden" name="board1">
-        <input type="text" maxlength="3" class="card-input hidden" name="board2">
-        <input type="text" maxlength="3" class="card-input hidden" name="board3">
-        <input type="text" maxlength="3" class="card-input hidden" name="board4">
-        <input type="text" maxlength="3" class="card-input hidden" name="board5">
+      <div class="col-6">
+        <div class="board">
+          <input type="text" maxlength="3" class="card-input hidden" name="board1">
+          <input type="text" maxlength="3" class="card-input hidden" name="board2">
+          <input type="text" maxlength="3" class="card-input hidden" name="board3">
+          <input type="text" maxlength="3" class="card-input hidden" name="board4">
+          <input type="text" maxlength="3" class="card-input hidden" name="board5">
+        </div>
       </div>
     </div>
 
@@ -74,6 +73,8 @@
         <div id="app"></div>
       </div>
     </div>
+
+    <br>
   </form>
 
   <div class="calculation-progress-bar-container hidden">
@@ -81,6 +82,75 @@
       <div class="bar1"></div>
       <div class="bar2"></div>
       <div class="bar3"></div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-10">
+      <div class="range-table">
+        <div class="range-element-inner">
+          <p class="title">AA</p>
+          <p class="description">R: 5%</p>
+          <p class="description">C: 5%</p>
+          <p class="description">F: 5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">AK</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">AQ</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">AJ</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">AT</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">A9</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">A8</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">A7</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">A6</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">A5</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">A4</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">A3</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner">
+          <p class="title">A2</p>
+          <p class="description">5%</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="hand-odds">
+        <p>Raise: </p>
+        <p>Call: </p>
+        <p>Fold: </p>
+      </div>
     </div>
   </div>
 

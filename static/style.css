@@ -15,16 +15,24 @@ body {
 /* CARDS */
 
 .card {
-  width: 12em;
+  width: 4rem !important; 
   height: auto;
 }
 
 .card-input {
-  width: 8em;
+  max-width: 4rem;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.hand {
+  margin-left: 50%;
+}
+
+.board {
+  margin-right: 50%;
 }
 
 /* GRID */
@@ -44,8 +52,6 @@ body {
 
 [class*="col-"] {
   float: left;
-  /* padding: 5px; */
-  /* border: 1px solid red; */
 }
 
 .row::after {
@@ -265,4 +271,39 @@ body {
 	100% {
 		transform: scaleY(1) scaleX(0.5);
 	}
+}
+
+/* RANGE TABLE */
+.range-table {
+	display: grid;
+	grid-template-columns: repeat(13, 4rem);
+	grid-template-rows: repeat(13, 4rem);
+	margin: auto;
+	justify-content: center;
+}
+
+.range-element-inner {
+  background: white;
+  border: 0.1rem solid black;
+  padding: 0.2rem;
+  width: 3rem;
+  height: 4rem;
+  transition: inherit;
+}
+
+.title {
+  font: 700 24px/1.3 "Poppins", sans-serif;
+  margin-top: -0.5rem;
+  margin-left: 0;
+  margin-bottom: 1rem;
+  margin-right: 0;
+}
+
+.description {
+  font: 500 12px "Poppins", sans-serif;
+  margin-top: -1rem;
+}
+
+.hand-odds {
+  float: left;
 }
