@@ -17,6 +17,8 @@ Error handling for cases where a card is null or invalid (Instructions for user 
   
 User results should be percent not decimal
 
+Lowercase Ace doesn't work (i.e as instead of Ah)
+
 # UI Ideas
 
 Loading bar when calculating user results
