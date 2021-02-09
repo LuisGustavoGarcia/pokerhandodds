@@ -307,3 +307,11 @@ body {
 .hand-odds {
   float: left;
 }
+
+.selected-combination {
+  background-color: #919191;
+}
+
+.unselected-combination {
+  background-color: white;
+}

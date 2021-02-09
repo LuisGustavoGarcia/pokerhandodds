@@ -21,6 +21,9 @@ let calculationProgressPercent : Element;
 let calculationProgressText : Element;
 let calculationProgressBarUpdateInterval = 0;
 
+let rangeElements : Map<string, Element> = new Map<string, Element>();
+let villainRange : Set<string> = new Set();
+
 function isValidCard(card: string): boolean {
   let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaTtJjQqKk]{1}))[SsHhCcDd]{1}');
   return regex.test(card);
@@ -351,6 +354,51 @@ function addFormEventListener(){
   form.addEventListener('submit', showLoadingBar);
 }
 
+function removeCombinationFromVillainRange(combination: string){
+  let combinationElement = rangeElements.get(combination);
+  let reverseCombination = combination[1] + combination[0];
+  let reverseCombinationElement = rangeElements.get(reverseCombination);
+  
+  combinationElement.classList.replace('selected-combination', 'unselected-combination');
+  reverseCombinationElement.classList.replace('selected-combination', 'unselected-combination');
+  
+  villainRange.delete(combination);
+  villainRange.delete(reverseCombination);
+}
+
+function addCombinationToVillainRange(combination: string){
+  let reverseCombination = combination[1] + combination[0];
+
+  villainRange.add(combination);
+  villainRange.add(reverseCombination);
+
+  let combinationElement = rangeElements.get(combination);
+  let reverseCombinationElement = rangeElements.get(reverseCombination);
+
+  combinationElement.classList.replace('unselected-combination', 'selected-combination');
+  reverseCombinationElement.classList.replace('unselected-combination', 'selected-combination');
+}
+
+function rangeButtonClicked(combination: string) {
+  if (villainRange.has(combination)){
+    removeCombinationFromVillainRange(combination);
+  }else{
+    addCombinationToVillainRange(combination);
+  }
+}
+
+function addRangeElementListeners(){
+  let rangeElementsList = document.getElementsByClassName('range-element-inner');
+  for( let i = 0; i < rangeElementsList.length; i++){
+    let rangeElement = rangeElementsList[i];
+    let rangeCombinationString = rangeElementsList[i].children[0].innerHTML;
+    rangeElements.set(rangeCombinationString, rangeElement);
+    rangeElementsList[i].addEventListener('click', function() {
+      rangeButtonClicked(rangeCombinationString);
+    });
+  }
+}
+
 window.addEventListener('load', function () {
   calculationProgressBar = document.getElementsByClassName('calculation-progress-bar-container')[0];
   calculationProgressPercent = document.getElementsByClassName('level')[0];
@@ -359,6 +407,7 @@ window.addEventListener('load', function () {
   addInputFieldEventListeners();
   addProgressBarEventListeners();
   addFormEventListener();
+  addRangeElementListeners();
   
   currentTurn = Turn.Preflop;
   showTurnInputs();
