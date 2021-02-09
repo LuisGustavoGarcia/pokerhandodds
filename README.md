@@ -7,7 +7,7 @@ Buttons to suggest what Hero should do based on their equity?
 
 Allow user to adjust villains range based on what happened preflop (3-bet,4-bet, villains position, etc.)
 
-Loading bar when calculating user's results
+(Complete) Loading bar when calculating user's results
 
 
 ## Bugs
@@ -21,5 +21,5 @@ Lowercase Ace doesn't work (i.e as instead of Ah)
 
 # UI Ideas
 
-Loading bar when calculating user results
+(Complete) Loading bar when calculating user results
 
