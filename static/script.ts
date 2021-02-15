@@ -304,6 +304,21 @@ async function postFormDataAsJson({ url, formData }) {
   return response.json();
 }
 
+async function postRangeDataAsJson() {
+  const data = {range: Array.from(villainRange)};
+  const response = await fetch("/range", {
+    method: "POST", 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+  }).then(res => {
+    console.log("Request complete! response:", res);
+  });
+  console.log(data);
+  return response;
+}
+
 async function handleFormSubmit(event) {
   let odds = document.getElementById("app");
   odds.innerText = "";
@@ -385,6 +400,8 @@ function rangeButtonClicked(combination: string) {
   }else{
     addCombinationToVillainRange(combination);
   }
+
+  postRangeDataAsJson();
 }
 
 function addRangeElementListeners(){

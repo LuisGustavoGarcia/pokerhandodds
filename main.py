@@ -20,6 +20,7 @@ from calculation import holdem_calc
 from flask import Flask, render_template, redirect, url_for, request, json
 import asyncio
 import numpy as np
+import json as pyjson
 #import pandas as pd
 
 app = Flask(__name__)
@@ -83,6 +84,15 @@ def getVillianRange(action, villain_position, hero_position):
 @app.route('/')
 def root():
     return render_template('index.html')
+
+@app.route('/range',methods = ['POST'])
+def getRange():
+    response = app.response_class(
+        response = request.get_json(),
+        status=200,
+        mimetype='application/json'
+    )
+    villain_range = request.get_json()
 
 @app.route('/calculate',methods = ['POST', 'GET'])
 def getOdds():

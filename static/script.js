@@ -281,6 +281,22 @@ function postFormDataAsJson({ url, formData }) {
         return response.json();
     });
 }
+function postRangeDataAsJson() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = { range: Array.from(villainRange) };
+        const response = yield fetch("/range", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        }).then(res => {
+            console.log("Request complete! response:", res);
+        });
+        console.log(data);
+        return response;
+    });
+}
 function handleFormSubmit(event) {
     return __awaiter(this, void 0, void 0, function* () {
         let odds = document.getElementById("app");
@@ -327,7 +343,6 @@ function addFormEventListener() {
     form.addEventListener('submit', showLoadingBar);
 }
 function removeCombinationFromVillainRange(combination) {
-    console.log("Removing combination ", combination);
     let combinationElement = rangeElements.get(combination);
     let reverseCombination = combination[1] + combination[0];
     let reverseCombinationElement = rangeElements.get(reverseCombination);
@@ -337,24 +352,22 @@ function removeCombinationFromVillainRange(combination) {
     villainRange.delete(reverseCombination);
 }
 function addCombinationToVillainRange(combination) {
-    console.log("Adding combination ", combination);
     let reverseCombination = combination[1] + combination[0];
     villainRange.add(combination);
     villainRange.add(reverseCombination);
     let combinationElement = rangeElements.get(combination);
     let reverseCombinationElement = rangeElements.get(reverseCombination);
-    console.log(combinationElement);
     combinationElement.classList.replace('unselected-combination', 'selected-combination');
     reverseCombinationElement.classList.replace('unselected-combination', 'selected-combination');
 }
 function rangeButtonClicked(combination) {
-    console.log(villainRange);
     if (villainRange.has(combination)) {
         removeCombinationFromVillainRange(combination);
     }
     else {
         addCombinationToVillainRange(combination);
     }
+    postRangeDataAsJson();
 }
 function addRangeElementListeners() {
     let rangeElementsList = document.getElementsByClassName('range-element-inner');
