@@ -88,6 +88,7 @@ def root():
 def getOdds():
     villain_hand = None
     flop = [request.form['board1'], request.form['board2'], request.form['board3']]
+
     #Error handling
     if len(flop[0]) == 0:
         board = ['5d','6d','7d']

@@ -19,6 +19,8 @@ User results should be percent not decimal
 
 Lowercase Ace doesn't work (i.e as instead of Ah)
 
+Timeout for the loading bar?
+
 # UI Ideas
 
 (Complete) Loading bar when calculating user results

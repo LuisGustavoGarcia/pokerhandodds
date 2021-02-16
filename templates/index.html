@@ -56,6 +56,9 @@
       <div class="col-3">
           <input type="text" maxlength="3" class="card-input hidden" name="hand1">
           <input type="text" maxlength="3" class="card-input hidden" name="hand2">
+          <input type="text" maxlength="3" name="hero_position" placeholder="CO">
+          <input type="text" maxlength="3" name="villain_position" placeholder="BU">
+
       </div>
       <div class="col-9">
         <input type="text" maxlength="3" class="card-input hidden" name="board1">
@@ -64,7 +67,10 @@
         <input type="text" maxlength="3" class="card-input hidden" name="board4">
         <input type="text" maxlength="3" class="card-input hidden" name="board5">
       </div>
+
+
     </div>
+
 
     <div class="row">
       <div class="col-6">
@@ -76,6 +82,12 @@
     </div>
   </form>
 
+  <select name="action" id="action">
+    <option value="RFI">RFI</option>
+    <option value="Raise">Raise</option>
+    <option value="3bet">3bet</option>
+    <option value="4bet">4bet</option>
+  </select>
   <div class="calculation-progress-bar-container hidden">
     <div class="loader">
       <div class="bar1"></div>

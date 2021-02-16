@@ -290,8 +290,10 @@ function handleFormSubmit(event) {
             let formData = new FormData(form);
             let hero_hand = formData.get('hand1') + (formData.get('hand2'));
             formData.append('action', 'RFI');
+            /*
             formData.append('villain_position', 'BU');
             formData.append('hero_position', 'CO');
+            */
             formData.append('hero_hand', hero_hand);
             const responseData = yield postFormDataAsJson({ url, formData });
             let contentDiv = document.getElementById('app');
