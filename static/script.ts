@@ -312,9 +312,14 @@ async function handleFormSubmit(event) {
   try {
     let formData = new FormData(form);
     let hero_hand = <string>formData.get('hand1') + <string>(formData.get('hand2'));
-    formData.append('action', 'RFI');
-    formData.append('villain_position', 'BU');
-    formData.append('hero_position', 'CO');
+    let villain_position = <string>formData.get('villain_position')
+    let hero_position = <string>formData.get('hero_position')
+    let selectTagHTML = <HTMLInputElement>document.getElementById('action');
+    let actionValue = selectTagHTML.value;
+    
+    formData.append('action', actionValue);
+    formData.append('villain_position', villain_position);
+    formData.append('hero_position', hero_position);
     formData.append('hero_hand', hero_hand);
 
     const responseData = await postFormDataAsJson({ url, formData });

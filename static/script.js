@@ -289,11 +289,13 @@ function handleFormSubmit(event) {
         try {
             let formData = new FormData(form);
             let hero_hand = formData.get('hand1') + (formData.get('hand2'));
-            formData.append('action', 'RFI');
-            /*
-            formData.append('villain_position', 'BU');
-            formData.append('hero_position', 'CO');
-            */
+            let villain_position = formData.get('villain_position');
+            let hero_position = formData.get('hero_position');
+            let selectTagHTML = document.getElementById('action');
+            let actionValue = selectTagHTML.value;
+            formData.append('action', actionValue);
+            formData.append('villain_position', villain_position);
+            formData.append('hero_position', hero_position);
             formData.append('hero_hand', hero_hand);
             const responseData = yield postFormDataAsJson({ url, formData });
             let contentDiv = document.getElementById('app');
