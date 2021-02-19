@@ -93,6 +93,8 @@ def getRange():
         mimetype='application/json'
     )
     villain_range = request.get_json()
+    print(villain_range)
+    return response
 
 @app.route('/calculate',methods = ['POST', 'GET'])
 def getOdds():
