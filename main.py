@@ -12,6 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Sources: https://poker.readthedocs.io/en/latest/range.html
+# https://github.com/souzatharsis/holdem_calc
+
+
 import datetime
 
 from poker.hand import Combo,Hand,Range
@@ -24,6 +28,8 @@ import json as pyjson
 #import pandas as pd
 
 app = Flask(__name__)
+
+villain_range = None
 #Narrows villians range by taking the preflop action as input
 #Hero will be RFI / vs. Raise / vs. 3-bet / 4-bet / etc. against x position to narrow ranges
 #Assumes GTO preflop 100BB deep and hero follows charts
@@ -85,17 +91,29 @@ def getVillianRange(action, villain_position, hero_position):
 def root():
     return render_template('index.html')
 
-@app.route('/range',methods = ['POST'])
+@app.route('/range',methods = ['GET'])
 def getRange():
+    global villain_range
+
+    #Converting range into list of hands
+
+    villain_range =  Range('99-22,AJs-A8s,A6s-A3s,KTs+,Q9s+,J9s+,T8s+,97s+,86s+,76s,65s,54s,AQo-ATo')
+    print(villain_range.hands[0])
+    hands_in_range = []
+    for hand in villain_range.hands:
+        hands_in_range.append(str(hand))
+    res = ','.join(hands_in_range)
+
     response = app.response_class(
-        response = request.get_json(),
+        response=json.dumps(res),
         status=200,
         mimetype='application/json'
     )
-    villain_range = request.get_json()
+    return response
 
 @app.route('/calculate',methods = ['POST', 'GET'])
 def getOdds():
+    global villain_range
     villain_hand = None
     flop = [request.form['board1'], request.form['board2'], request.form['board3']]
     #Error handling
