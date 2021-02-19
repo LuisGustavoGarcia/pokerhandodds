@@ -98,7 +98,6 @@ def getRange():
     #Converting range into list of hands
 
     villain_range =  Range('99-22,AJs-A8s,A6s-A3s,KTs+,Q9s+,J9s+,T8s+,97s+,86s+,76s,65s,54s,AQo-ATo')
-    print(villain_range.hands[0])
     hands_in_range = []
     for hand in villain_range.hands:
         hands_in_range.append(str(hand))

@@ -344,21 +344,13 @@ function addFormEventListener() {
 }
 function removeCombinationFromVillainRange(combination) {
     let combinationElement = rangeElements.get(combination);
-    let reverseCombination = combination[1] + combination[0];
-    let reverseCombinationElement = rangeElements.get(reverseCombination);
     combinationElement.classList.replace('selected-combination', 'unselected-combination');
-    reverseCombinationElement.classList.replace('selected-combination', 'unselected-combination');
     villainRange.delete(combination);
-    villainRange.delete(reverseCombination);
 }
 function addCombinationToVillainRange(combination) {
-    let reverseCombination = combination[1] + combination[0];
     villainRange.add(combination);
-    villainRange.add(reverseCombination);
     let combinationElement = rangeElements.get(combination);
-    let reverseCombinationElement = rangeElements.get(reverseCombination);
     combinationElement.classList.replace('unselected-combination', 'selected-combination');
-    reverseCombinationElement.classList.replace('unselected-combination', 'selected-combination');
 }
 function rangeButtonClicked(combination) {
     if (villainRange.has(combination)) {
