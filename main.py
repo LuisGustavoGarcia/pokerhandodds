@@ -110,6 +110,17 @@ def getRange():
     )
     return response
 
+@app.route('/range',methods = ['POST'])
+def postRange():
+    response = app.response_class(
+        response = request.get_json(),
+        status=200,
+        mimetype='application/json'
+    )
+    villain_range = request.get_json()
+    print(villain_range)
+    return response
+
 @app.route('/calculate',methods = ['POST', 'GET'])
 def getOdds():
     global villain_range
