@@ -58,7 +58,6 @@ function getCardUrl(card) {
     }
     else if (card.length == 3) {
         rank = card[0] + card[1];
-        console.log(rank);
         suit = card[2].toLowerCase();
     }
     else {
@@ -281,25 +280,37 @@ function postFormDataAsJson({ url, formData }) {
         return response.json();
     });
 }
+function getRangeDataFromServer() {
+    return __awaiter(this, void 0, void 0, function* () {
+        fetch('/range')
+            .then(response => response.json())
+            .then(data => {
+            let combinations = data.split(',');
+            setRangeTableValues(combinations);
+        });
+    });
+}
 function postRangeDataAsJson() {
     return __awaiter(this, void 0, void 0, function* () {
         const data = { range: Array.from(villainRange) };
-        const response = yield fetch("/range", {
-            method: "POST",
+        const response = yield fetch('/range', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data),
         }).then(res => {
-            console.log("Request complete! response:", res);
+            console.log('Request complete! response:', res);
         });
-        console.log(data);
         return response;
     });
 }
-function handleFormSubmit(event) {
+function handleCalculate(event) {
     return __awaiter(this, void 0, void 0, function* () {
-        let odds = document.getElementById("app");
+        if (currentTurn == Turn.Preflop) {
+            getRangeDataFromServer();
+        }
+        let odds = document.getElementById('app');
         odds.innerText = "";
         event.preventDefault();
         const form = event.currentTarget;
@@ -339,8 +350,19 @@ function hideLoadingBar() {
 }
 function addFormEventListener() {
     const form = document.getElementById('calculate_form');
-    form.addEventListener('submit', handleFormSubmit);
+    form.addEventListener('submit', handleCalculate);
     form.addEventListener('submit', showLoadingBar);
+}
+function setRangeTableValues(combinations) {
+    resetRangeTable();
+    for (let i = 0; i < combinations.length; i++) {
+        addCombinationToVillainRange(combinations[i]);
+    }
+}
+function resetRangeTable() {
+    villainRange.forEach(combination => {
+        removeCombinationFromVillainRange(combination);
+    });
 }
 function removeCombinationFromVillainRange(combination) {
     let combinationElement = rangeElements.get(combination);

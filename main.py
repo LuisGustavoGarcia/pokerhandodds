@@ -12,10 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Sources: https://poker.readthedocs.io/en/latest/range.html
-# https://github.com/souzatharsis/holdem_calc
-
-
 import datetime
 
 from poker.hand import Combo,Hand,Range
@@ -28,8 +24,6 @@ import json as pyjson
 #import pandas as pd
 
 app = Flask(__name__)
-
-villain_range = None
 #Narrows villians range by taking the preflop action as input
 #Hero will be RFI / vs. Raise / vs. 3-bet / 4-bet / etc. against x position to narrow ranges
 #Assumes GTO preflop 100BB deep and hero follows charts
@@ -112,18 +106,15 @@ def getRange():
 
 @app.route('/range',methods = ['POST'])
 def postRange():
-    response = app.response_class(
+    app.response_class(
         response = request.get_json(),
         status=200,
         mimetype='application/json'
     )
     villain_range = request.get_json()
-    print(villain_range)
-    return response
-
+    
 @app.route('/calculate',methods = ['POST', 'GET'])
 def getOdds():
-    global villain_range
     villain_hand = None
     flop = [request.form['board1'], request.form['board2'], request.form['board3']]
     #Error handling

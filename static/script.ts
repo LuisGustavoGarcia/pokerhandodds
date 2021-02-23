@@ -57,7 +57,6 @@ function getCardUrl(card: string): string {
     suit = card[1].toLowerCase();
   } else if (card.length == 3) {
     rank = card[0] + card[1];
-    console.log(rank);
     suit = card[2].toLowerCase();
   }else{
     return "error";
@@ -304,23 +303,35 @@ async function postFormDataAsJson({ url, formData }) {
   return response.json();
 }
 
+async function getRangeDataFromServer() {
+  fetch('/range')
+  .then(response => response.json())
+  .then(data => {
+    let combinations = data.split(',');
+    setRangeTableValues(combinations);
+  });
+}
+
 async function postRangeDataAsJson() {
   const data = {range: Array.from(villainRange)};
-  const response = await fetch("/range", {
-    method: "POST", 
+  const response = await fetch('/range', {
+    method: 'POST', 
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data),
   }).then(res => {
-    console.log("Request complete! response:", res);
+    console.log('Request complete! response:', res);
   });
-  console.log(data);
   return response;
 }
 
-async function handleFormSubmit(event) {
-  let odds = document.getElementById("app");
+async function handleCalculate(event) {
+  if (currentTurn == Turn.Preflop){
+    getRangeDataFromServer();
+  }
+  
+  let odds = document.getElementById('app');
   odds.innerText = "";
   
   event.preventDefault();
@@ -365,8 +376,21 @@ function hideLoadingBar(){
 
 function addFormEventListener(){
   const form = document.getElementById('calculate_form');
-  form.addEventListener('submit', handleFormSubmit);
+  form.addEventListener('submit', handleCalculate);
   form.addEventListener('submit', showLoadingBar);
+}
+
+function setRangeTableValues(combinations){
+    resetRangeTable();
+    for(let i = 0; i < combinations.length; i++){
+      addCombinationToVillainRange(combinations[i]);
+    }
+}
+
+function resetRangeTable(){
+  villainRange.forEach(combination => {
+    removeCombinationFromVillainRange(combination);
+  });
 }
 
 function removeCombinationFromVillainRange(combination: string){
@@ -387,7 +411,6 @@ function rangeButtonClicked(combination: string) {
   }else{
     addCombinationToVillainRange(combination);
   }
-
   postRangeDataAsJson();
 }
 
