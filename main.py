@@ -117,8 +117,8 @@ def postRange():
         status=200,
         mimetype='application/json'
     )
-    villain_range = request.get_json()
-    print(villain_range)
+    res = ','.join(request.get_json()['range'])
+    villain_range = Range(res)
     return response
 
 @app.route('/calculate',methods = ['POST', 'GET'])
