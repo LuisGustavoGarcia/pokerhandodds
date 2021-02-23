@@ -51,6 +51,8 @@ def narrowRange(action, villian_position):
     return None
 
 def getVillianRange(action, villain_position, hero_position):
+    if action == "None":
+        return villain_range
     #Button RFI range -> Villian is on the button and raises first
     if action == "RFI" and villain_position == "BU":
         return Range('22+,A2s+,K2s+,Q2s+,J2s+,T2s+,95s+,85s+,74s+,63s+,53s+,43s,A2o+,K8o+,Q8o+,J8o+,T8o+,97o+,87o,76o,65o,54o')
@@ -97,7 +99,6 @@ def getRange():
 
     #Converting range into list of hands
 
-    villain_range =  Range('99-22,AJs-A8s,A6s-A3s,KTs+,Q9s+,J9s+,T8s+,97s+,86s+,76s,65s,54s,AQo-ATo')
     hands_in_range = []
     for hand in villain_range.hands:
         hands_in_range.append(str(hand))
@@ -112,6 +113,8 @@ def getRange():
 
 @app.route('/range',methods = ['POST'])
 def postRange():
+    global villain_range
+
     response = app.response_class(
         response = request.get_json(),
         status=200,
@@ -119,6 +122,7 @@ def postRange():
     )
     res = ','.join(request.get_json()['range'])
     villain_range = Range(res)
+    #print(villain_range.to_ascii());
     return response
 
 @app.route('/calculate',methods = ['POST', 'GET'])
@@ -141,8 +145,9 @@ def getOdds():
     action = request.form['action']
     villain_position = request.form['villain_position']
     hero_position =  request.form['hero_position']
-    villain_range = getVillianRange(action, villain_position, hero_position)
-    
+    #villain_range = getVillianRange(action, villain_position, hero_position)
+    print(villain_range.combos)
+
     #Constant Variables
     do_exact_calculation = True
     verbose = True
@@ -157,6 +162,8 @@ def getOdds():
     [odds.update({odd_type: np.mean([res[0][odd_type] for res in items if res])}) for odd_type in ["tie", "win", "lose"]]
     #Odds as dictionary with tie, win, loss as keys
     #return str(odds.get("win"))
+    print(villain_range.combos)
+
     response = app.response_class(
         response=json.dumps(odds),
         status=200,
