@@ -313,7 +313,9 @@ function handleFormSubmit(event) {
             formData.append('hero_hand', hero_hand);
             const responseData = yield postFormDataAsJson({ url, formData });
             let contentDiv = document.getElementById('app');
-            contentDiv.innerHTML = responseData.win;
+            let result = parseFloat(responseData.win) * 100;
+            contentDiv.innerHTML = result.toFixed(3).toString() + "%";
+            console.log(result);
         }
         catch (error) {
             console.error(error);
