@@ -27,6 +27,8 @@ let calculationProgressBar;
 let calculationProgressPercent;
 let calculationProgressText;
 let calculationProgressBarUpdateInterval = 0;
+let rangeElements = new Map();
+let villainRange = new Set();
 function isValidCard(card) {
     let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaTtJjQqKk]{1}))[SsHhCcDd]{1}');
     return regex.test(card);
@@ -56,7 +58,6 @@ function getCardUrl(card) {
     }
     else if (card.length == 3) {
         rank = card[0] + card[1];
-        console.log(rank);
         suit = card[2].toLowerCase();
     }
     else {
@@ -279,9 +280,39 @@ function postFormDataAsJson({ url, formData }) {
         return response.json();
     });
 }
-function handleFormSubmit(event) {
+function getRangeDataFromServer() {
     return __awaiter(this, void 0, void 0, function* () {
-        let odds = document.getElementById("app");
+        fetch('/range')
+            .then(response => response.json())
+            .then(data => {
+            let combinations = data.split(',');
+            setRangeTableValues(combinations);
+        });
+    });
+}
+function postRangeDataAsJson() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = { range: Array.from(villainRange) };
+        const response = yield fetch('/range', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        }).then(res => {
+            console.log('Request complete! response:', res);
+        });
+        return response;
+    });
+}
+function handleCalculate(event) {
+    return __awaiter(this, void 0, void 0, function* () {
+        /*
+        if (currentTurn == Turn.Preflop){
+          getRangeDataFromServer();
+        }
+        */
+        let odds = document.getElementById('app');
         odds.innerText = "";
         event.preventDefault();
         const form = event.currentTarget;
@@ -299,7 +330,9 @@ function handleFormSubmit(event) {
             formData.append('hero_hand', hero_hand);
             const responseData = yield postFormDataAsJson({ url, formData });
             let contentDiv = document.getElementById('app');
-            contentDiv.innerHTML = responseData.win;
+            let result = parseFloat(responseData.win) * 100;
+            contentDiv.innerHTML = result.toFixed(3).toString() + "%";
+            console.log(result);
         }
         catch (error) {
             console.error(error);
@@ -325,8 +358,49 @@ function hideLoadingBar() {
 }
 function addFormEventListener() {
     const form = document.getElementById('calculate_form');
-    form.addEventListener('submit', handleFormSubmit);
+    form.addEventListener('submit', handleCalculate);
     form.addEventListener('submit', showLoadingBar);
+}
+function setRangeTableValues(combinations) {
+    resetRangeTable();
+    for (let i = 0; i < combinations.length; i++) {
+        addCombinationToVillainRange(combinations[i]);
+    }
+}
+function resetRangeTable() {
+    villainRange.forEach(combination => {
+        removeCombinationFromVillainRange(combination);
+    });
+}
+function removeCombinationFromVillainRange(combination) {
+    let combinationElement = rangeElements.get(combination);
+    combinationElement.classList.replace('selected-combination', 'unselected-combination');
+    villainRange.delete(combination);
+}
+function addCombinationToVillainRange(combination) {
+    villainRange.add(combination);
+    let combinationElement = rangeElements.get(combination);
+    combinationElement.classList.replace('unselected-combination', 'selected-combination');
+}
+function rangeButtonClicked(combination) {
+    if (villainRange.has(combination)) {
+        removeCombinationFromVillainRange(combination);
+    }
+    else {
+        addCombinationToVillainRange(combination);
+    }
+    postRangeDataAsJson();
+}
+function addRangeElementListeners() {
+    let rangeElementsList = document.getElementsByClassName('range-element-inner');
+    for (let i = 0; i < rangeElementsList.length; i++) {
+        let rangeElement = rangeElementsList[i];
+        let rangeCombinationString = rangeElementsList[i].children[0].innerHTML;
+        rangeElements.set(rangeCombinationString, rangeElement);
+        rangeElementsList[i].addEventListener('click', function () {
+            rangeButtonClicked(rangeCombinationString);
+        });
+    }
 }
 window.addEventListener('load', function () {
     calculationProgressBar = document.getElementsByClassName('calculation-progress-bar-container')[0];
@@ -335,6 +409,7 @@ window.addEventListener('load', function () {
     addInputFieldEventListeners();
     addProgressBarEventListeners();
     addFormEventListener();
+    addRangeElementListeners();
     currentTurn = Turn.Preflop;
     showTurnInputs();
     playerHandCardImages = Array.prototype.slice.call(document.getElementsByClassName("hand-card"));

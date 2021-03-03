@@ -13,8 +13,7 @@
   </header>
   
   <div class="row">
-    <div class="col-1"></div>
-    <div class="col-10">
+    <div class="col-12">
       <div class="turn-progress-bar-container">
         <div class="progress-wrap">
          <ol class="progress-wizard">
@@ -26,29 +25,25 @@
          </div>
        </div>
     </div>
-    <div class="col-1"></div>
-  </div>
-
-  <div class="row">
-    <div class="col-3">
-      <h3>Your Hand</h3>  
-    </div>
-    <div class="col-9">
-      <h3>Board</h3>  
-    </div>
   </div>
   
   <div class="row">
-    <div class="col-3">
-      <img class="card hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="card hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    <div class="col-6">
+      <div class="hand">
+        <h3>Your Hand</h3>  
+        <img class="card hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+        <img class="card hand-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      </div>
     </div>
-    <div class="col-9">
-      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
-      <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+    <div class="col-6">
+      <div class="board">
+        <h3>Board</h3>  
+        <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+        <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+        <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+        <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+        <img class="card board-card" src="{{ url_for('static', filename='deck-of-cards/faces/back.png') }}">
+      </div>
     </div>
   </div>
   <form action="/calculate" method="post" id="calculate_form">
@@ -56,16 +51,19 @@
       <div class="col-3">
           <input type="text" maxlength="3" class="card-input hidden" name="hand1">
           <input type="text" maxlength="3" class="card-input hidden" name="hand2">
-          <input type="text" maxlength="3" name="hero_position" placeholder="CO">
-          <input type="text" maxlength="3" name="villain_position" placeholder="BU">
+          <input type="text" maxlength="3" name="hero_position" placeholder="hero postition">
+          <input type="text" maxlength="3" name="villain_position" placeholder="villain position">
+
 
       </div>
-      <div class="col-9">
-        <input type="text" maxlength="3" class="card-input hidden" name="board1">
-        <input type="text" maxlength="3" class="card-input hidden" name="board2">
-        <input type="text" maxlength="3" class="card-input hidden" name="board3">
-        <input type="text" maxlength="3" class="card-input hidden" name="board4">
-        <input type="text" maxlength="3" class="card-input hidden" name="board5">
+      <div class="col-6">
+        <div class="board">
+          <input type="text" maxlength="3" class="card-input hidden" name="board1">
+          <input type="text" maxlength="3" class="card-input hidden" name="board2">
+          <input type="text" maxlength="3" class="card-input hidden" name="board3">
+          <input type="text" maxlength="3" class="card-input hidden" name="board4">
+          <input type="text" maxlength="3" class="card-input hidden" name="board5">
+        </div>
       </div>
 
 
@@ -80,6 +78,8 @@
         <div id="app"></div>
       </div>
     </div>
+
+    <br>
   </form>
 
   <select name="action" id="action">
@@ -93,6 +93,710 @@
       <div class="bar1"></div>
       <div class="bar2"></div>
       <div class="bar3"></div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-10">
+      <div class="range-table">
+        <div class="range-element-inner unselected-combination">
+          <p class="title">AA</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">AKs</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">AQs</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">AJs</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">ATs</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A9s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A8s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A7s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A6s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A5s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A4s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A3s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A2s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 1 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">AKo</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">KK</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">KQs</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">KJs</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">KTs</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K9s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K8s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K7s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K6s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K5s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K4s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination ">
+          <p class="title">K3s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K2s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 2 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">AQo</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">KQo</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">QQ</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">QJs</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">QTs</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q9s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q8s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q7s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q6s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q5s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q4s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q3s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q2s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 3 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">AJo</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">KJo</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">QJo</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">JJ</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">JTs</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J9s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J8s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J7s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J6s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J5s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J4s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J3s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J2s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 4 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">ATo</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">KTo</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">QTo</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">KTo</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">TT</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T9s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T8s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T7s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T6s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T5s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T4s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T3s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T2s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 5 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A9o</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K9o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q9o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J9o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T9o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">99</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">98s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">97s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">96s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">95s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">94s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">93s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">92s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 6 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A8o</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K8o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q8o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J8o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T8o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">98o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">88</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">87s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">86s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">85s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">84s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">83s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">82s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 7 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A7</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K7o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q7o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J7o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T7o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">97o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">87o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">77</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">76s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">75s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">74s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">73s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">72s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 8 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A6o</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K6o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q6o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J6o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T6o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">96o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">86o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">76o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">66</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">65s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">64s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">63s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">62s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 9 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A5o</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K5o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q5o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J5o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T5o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">95o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">85o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">75o</pw>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">65o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">55</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">54s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">53s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">52s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 10 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A4o</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K4o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q4o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J4o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T4o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">94o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">84o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">74o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">64o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">54o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">44</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">43s</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">42s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 11 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A3o</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K3o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q3o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J3o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T3o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">93o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">83o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">73o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">63o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">53o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">43o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">33</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">32s</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 12 -->
+        <div class="range-element-inner unselected-combination">
+          <p class="title">A2o</p>
+          <p class="description">R: 5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">K2o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">Q2o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">J2o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">T2o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">92o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">82o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">72o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">62o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">52o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">42o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">32o</p>
+          <p class="description">5%</p>
+        </div>
+        <div class="range-element-inner unselected-combination">
+          <p class="title">22</p>
+          <p class="description">5%</p>
+        </div>
+        <!-- END OF ROW 13 -->
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="hand-odds">
+        <p>Raise: </p>
+        <p>Call: </p>
+        <p>Fold: </p>
+      </div>
     </div>
   </div>
 

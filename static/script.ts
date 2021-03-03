@@ -21,6 +21,9 @@ let calculationProgressPercent : Element;
 let calculationProgressText : Element;
 let calculationProgressBarUpdateInterval = 0;
 
+let rangeElements : Map<string, Element> = new Map<string, Element>();
+let villainRange : Set<string> = new Set();
+
 function isValidCard(card: string): boolean {
   let regex = new RegExp('(([1]{1}[0]{1})|([2-9AaTtJjQqKk]{1}))[SsHhCcDd]{1}');
   return regex.test(card);
@@ -54,7 +57,6 @@ function getCardUrl(card: string): string {
     suit = card[1].toLowerCase();
   } else if (card.length == 3) {
     rank = card[0] + card[1];
-    console.log(rank);
     suit = card[2].toLowerCase();
   }else{
     return "error";
@@ -301,8 +303,36 @@ async function postFormDataAsJson({ url, formData }) {
   return response.json();
 }
 
-async function handleFormSubmit(event) {
-  let odds = document.getElementById("app");
+async function getRangeDataFromServer() {
+  fetch('/range')
+  .then(response => response.json())
+  .then(data => {
+    let combinations = data.split(',');
+    setRangeTableValues(combinations);
+  });
+}
+
+async function postRangeDataAsJson() {
+  const data = {range: Array.from(villainRange)};
+  const response = await fetch('/range', {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+  }).then(res => {
+    console.log('Request complete! response:', res);
+  });
+  return response;
+}
+
+async function handleCalculate(event) {
+  /*
+  if (currentTurn == Turn.Preflop){
+    getRangeDataFromServer();
+  }
+  */
+  let odds = document.getElementById('app');
   odds.innerText = "";
   
   event.preventDefault();
@@ -324,7 +354,9 @@ async function handleFormSubmit(event) {
 
     const responseData = await postFormDataAsJson({ url, formData });
     let contentDiv = document.getElementById('app');
-    contentDiv.innerHTML = responseData.win;
+    let result = parseFloat(responseData.win)*100;
+    contentDiv.innerHTML = result.toFixed(3).toString() + "%";
+    console.log(result)
   } catch (error) {
     console.error(error);
   }
@@ -352,8 +384,54 @@ function hideLoadingBar(){
 
 function addFormEventListener(){
   const form = document.getElementById('calculate_form');
-  form.addEventListener('submit', handleFormSubmit);
+  form.addEventListener('submit', handleCalculate);
   form.addEventListener('submit', showLoadingBar);
+}
+
+function setRangeTableValues(combinations){
+    resetRangeTable();
+    for(let i = 0; i < combinations.length; i++){
+      addCombinationToVillainRange(combinations[i]);
+    }
+}
+
+function resetRangeTable(){
+  villainRange.forEach(combination => {
+    removeCombinationFromVillainRange(combination);
+  });
+}
+
+function removeCombinationFromVillainRange(combination: string){
+  let combinationElement = rangeElements.get(combination);
+  combinationElement.classList.replace('selected-combination', 'unselected-combination');
+  villainRange.delete(combination);
+}
+
+function addCombinationToVillainRange(combination: string){
+  villainRange.add(combination);
+  let combinationElement = rangeElements.get(combination);
+  combinationElement.classList.replace('unselected-combination', 'selected-combination');
+}
+
+function rangeButtonClicked(combination: string) {
+  if (villainRange.has(combination)){
+    removeCombinationFromVillainRange(combination);
+  }else{
+    addCombinationToVillainRange(combination);
+  }
+  postRangeDataAsJson();
+}
+
+function addRangeElementListeners(){
+  let rangeElementsList = document.getElementsByClassName('range-element-inner');
+  for( let i = 0; i < rangeElementsList.length; i++){
+    let rangeElement = rangeElementsList[i];
+    let rangeCombinationString = rangeElementsList[i].children[0].innerHTML;
+    rangeElements.set(rangeCombinationString, rangeElement);
+    rangeElementsList[i].addEventListener('click', function() {
+      rangeButtonClicked(rangeCombinationString);
+    });
+  }
 }
 
 window.addEventListener('load', function () {
@@ -364,6 +442,7 @@ window.addEventListener('load', function () {
   addInputFieldEventListeners();
   addProgressBarEventListeners();
   addFormEventListener();
+  addRangeElementListeners();
   
   currentTurn = Turn.Preflop;
   showTurnInputs();

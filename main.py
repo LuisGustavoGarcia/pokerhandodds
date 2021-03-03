@@ -20,12 +20,14 @@ from calculation import holdem_calc
 from flask import Flask, render_template, redirect, url_for, request, json
 import asyncio
 import numpy as np
+import json as pyjson
 #import pandas as pd
 
 app = Flask(__name__)
 #Narrows villians range by taking the preflop action as input
 #Hero will be RFI / vs. Raise / vs. 3-bet / 4-bet / etc. against x position to narrow ranges
 #Assumes GTO preflop 100BB deep and hero follows charts
+villain_range = None
 
 def narrowRange(action, villian_position):
     #Button RFI range -> Villian is on the button and raises first
@@ -84,8 +86,42 @@ def getVillianRange(action, villain_position, hero_position):
 def root():
     return render_template('index.html')
 
+@app.route('/range',methods = ['GET'])
+def getRange():
+    global villain_range
+
+    #Converting range into list of hands
+    if villain_range == None:
+        villain_range =  Range('99-22,AJs-A8s,A6s-A3s,KTs+,Q9s+,J9s+,T8s+,97s+,86s+,76s,65s,54s,AQo-ATo')
+    hands_in_range = []
+    for hand in villain_range.hands:
+        hands_in_range.append(str(hand))
+    res = ','.join(hands_in_range)
+
+    response = app.response_class(
+        response=json.dumps(res),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+@app.route('/range',methods = ['POST'])
+def postRange():
+    global villain_range
+    
+    response = app.response_class(
+        response = request.get_json(),
+        status=200,
+        mimetype='application/json'
+    )
+    res = ','.join(request.get_json()['range'])
+    villain_range = Range(res)
+    return response
+
 @app.route('/calculate',methods = ['POST', 'GET'])
 def getOdds():
+    global villain_range
+
     villain_hand = None
     flop = [request.form['board1'], request.form['board2'], request.form['board3']]
     #Error handling
@@ -103,8 +139,9 @@ def getOdds():
     action = request.form['action']
     villain_position = request.form['villain_position']
     hero_position =  request.form['hero_position']
-    villain_range = getVillianRange(action, villain_position, hero_position)
-    
+
+    if villain_range == None:
+        villain_range = getVillianRange(action, villain_position, hero_position)
     #Constant Variables
     do_exact_calculation = True
     verbose = True
